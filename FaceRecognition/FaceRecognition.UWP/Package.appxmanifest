@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="30664023-4dcc-4021-8f09-4059466cc92f"
-    Publisher="CN=872c06a7-2189-488c-a52a-515683689c5f"
+    Name="094deb82-f60f-4f71-ab69-938ca7f0650a"
+    Publisher="CN=9234d77b-15b1-4043-9eff-d80f2a042e82"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="ec0cc741-fd3e-485c-81be-68815c480690" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>FaceRecognition.UWP</DisplayName>
-    <PublisherDisplayName>872c06a7-2189-488c-a52a-515683689c5f</PublisherDisplayName>
+    <PublisherDisplayName>9234d77b-15b1-4043-9eff-d80f2a042e82</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 

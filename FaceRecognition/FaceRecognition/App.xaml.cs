@@ -1,15 +1,18 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using FaceRecognition.Views;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace FaceRecognition
 {
     public partial class App : Application
     {
+
         public App()
         {
             InitializeComponent();
+
 
             MainPage = new MainPage();
         }
