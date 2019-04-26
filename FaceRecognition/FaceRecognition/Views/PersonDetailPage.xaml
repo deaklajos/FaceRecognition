@@ -3,10 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FaceRecognition.Views.PersonDetailPage"
              Title="{Binding Title}">
-    <StackLayout Spacing="20" Padding="15">
+    <StackLayout Spacing="5" Padding="15">
         <Image Source="{Binding Person.FaceImage}" HorizontalOptions="Center" HeightRequest="64" />
         <Label Text="Name:" FontSize="Medium" />
         <Label Text="{Binding Person.Name}" FontSize="Small"/>
-        <Button Text="Indentify me!" Clicked="Indentify_Clicked"/>
+        <Button Text="Recognize Me!" Clicked="Recognize_Clicked"/>
+        <Button Text="Recognize EveryBody!" Clicked="Recognize_Clicked"/>
     </StackLayout>
 </ContentPage>

@@ -34,10 +34,9 @@ namespace FaceRecognition.Views
             BindingContext = viewModel;
         }
 
-        async void Indentify_Clicked(object sender, EventArgs e)
+        async void Recognize_Clicked(object sender, EventArgs e)
         {
-            // TODO implement
-            await Navigation.PopAsync();
+            await Navigation.PushAsync(new RecognitionPage());
         }
     }
 }
