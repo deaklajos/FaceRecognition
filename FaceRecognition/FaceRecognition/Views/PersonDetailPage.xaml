@@ -7,7 +7,6 @@
         <Image Source="{Binding Person.FaceImage}" HorizontalOptions="Center" HeightRequest="64" />
         <Label Text="Name:" FontSize="Medium" />
         <Label Text="{Binding Person.Name}" FontSize="Small"/>
-        <Label Text="Description:" FontSize="Medium" />
-        <Label Text="{Binding Person.Description}" FontSize="Small"/>
+        <Button Text="Indentify me!" Clicked="Indentify_Clicked"/>
     </StackLayout>
 </ContentPage>

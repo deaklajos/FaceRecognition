@@ -17,7 +17,6 @@ namespace FaceRecognition.Views
         {
             InitializeComponent();
 
-            //TODO remove image.
             Person = new Person
             {
                 Name = "Item name",
@@ -35,6 +34,18 @@ namespace FaceRecognition.Views
 
         async void Cancel_Clicked(object sender, EventArgs e)
         {
+            await Navigation.PopModalAsync();
+        }
+
+        async void Camera_Clicked(object sender, EventArgs e)
+        {
+            // TODO implement
+            await Navigation.PopModalAsync();
+        }
+
+        async void Picked_Clicked(object sender, EventArgs e)
+        {
+            // TODO implement
             await Navigation.PopModalAsync();
         }
     }

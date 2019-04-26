@@ -24,10 +24,12 @@
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
             <Image Source="{Binding Person.FaceImage}" HorizontalOptions="Center" HeightRequest="64" />
-            <Label Text="Text" FontSize="Medium" />
+            <Label Text="Name" FontSize="Medium" />
             <Entry Text="{Binding Person.Name}" FontSize="Small" />
-            <Label Text="Description" FontSize="Medium" />
-            <Editor Text="{Binding Person.Description}" FontSize="Small" Margin="0" />
+            <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
+                <Button Text="Use Camera" Clicked="Camera_Clicked"/>
+                <Button Text="Pick Image" Clicked="Picked_Clicked"/>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

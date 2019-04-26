@@ -19,13 +19,11 @@ namespace FaceRecognition.Views
 
             BindingContext = this.viewModel = viewModel;
         }
-
         
         public PersonDetailPage()
         {
             InitializeComponent();
 
-            // TODO better default image.
             var item = new Person
             {
                 Name = "Item 1",
@@ -34,6 +32,12 @@ namespace FaceRecognition.Views
 
             viewModel = new PersonDetailViewModel(item);
             BindingContext = viewModel;
+        }
+
+        async void Indentify_Clicked(object sender, EventArgs e)
+        {
+            // TODO implement
+            await Navigation.PopAsync();
         }
     }
 }

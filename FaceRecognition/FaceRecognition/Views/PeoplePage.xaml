@@ -26,6 +26,7 @@
                 ItemSelected="OnItemSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
+
                     <ViewCell>
                         <StackLayout Padding="10" Orientation="Horizontal">
                             <Image Source="{Binding FaceImage}"
@@ -36,6 +37,10 @@
                                 FontSize="16" />
                         </StackLayout>
                     </ViewCell>
+
+                    <!--
+                    <ImageCell Height="64" ImageSource="{Binding FaceImage}" Text="{Binding Name}" />
+                -->
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
