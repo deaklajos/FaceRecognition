@@ -3,64 +3,65 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FaceRecognition.Models;
+using Xamarin.Forms;
 
 namespace FaceRecognition.Services
 {
-    public class MockDataStore : IDataStore<Item>
+    public class MockDataStore : IDataStore<Person>
     {
-        List<Item> items;
+        List<Person> people;
 
         public MockDataStore()
         {
-            items = new List<Item>();
-            var mockItems = new List<Item>
+            people = new List<Person>();
+            var mockItems = new List<Person>
             {
-                new Item { Id = Guid.NewGuid().ToString(), Text = "First item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Second item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Third item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Fourth item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Fifth item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Sixth item", Description="This is an item description." },
+                new Person { Id = Guid.NewGuid().ToString(), Name = "First item", Description="This is an item description." },
+                new Person { Id = Guid.NewGuid().ToString(), Name = "Second item", Description="This is an item description." },
+                new Person { Id = Guid.NewGuid().ToString(), Name = "Third item", Description="This is an item description." },
+                new Person { Id = Guid.NewGuid().ToString(), Name = "Fourth item", Description="This is an item description." },
+                new Person { Id = Guid.NewGuid().ToString(), Name = "Fifth item", Description="This is an item description." },
+                new Person { Id = Guid.NewGuid().ToString(), Name = "Sixth item", Description="This is an item description." },
             };
 
-            foreach (var item in mockItems)
+            foreach (var person in mockItems)
             {
-                items.Add(item);
+                people.Add(person);
             }
         }
 
-        public async Task<bool> AddItemAsync(Item item)
+        public async Task<bool> AddItemAsync(Person person)
         {
-            items.Add(item);
+            people.Add(person);
 
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> UpdateItemAsync(Item item)
+        public async Task<bool> UpdateItemAsync(Person item)
         {
-            var oldItem = items.Where((Item arg) => arg.Id == item.Id).FirstOrDefault();
-            items.Remove(oldItem);
-            items.Add(item);
+            var oldItem = people.Where((Person arg) => arg.Id == item.Id).FirstOrDefault();
+            people.Remove(oldItem);
+            people.Add(item);
 
             return await Task.FromResult(true);
         }
 
         public async Task<bool> DeleteItemAsync(string id)
         {
-            var oldItem = items.Where((Item arg) => arg.Id == id).FirstOrDefault();
-            items.Remove(oldItem);
+            var oldItem = people.Where((Person arg) => arg.Id == id).FirstOrDefault();
+            people.Remove(oldItem);
 
             return await Task.FromResult(true);
         }
 
-        public async Task<Item> GetItemAsync(string id)
+        public async Task<Person> GetItemAsync(string id)
         {
-            return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
+            return await Task.FromResult(people.FirstOrDefault(s => s.Id == id));
         }
 
-        public async Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false)
+        public async Task<IEnumerable<Person>> GetItemsAsync(bool forceRefresh = false)
         {
-            return await Task.FromResult(items);
+            return await Task.FromResult(people);
         }
     }
 }

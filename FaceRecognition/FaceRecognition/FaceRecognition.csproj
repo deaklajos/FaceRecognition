@@ -10,6 +10,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="pepe.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="pepe.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />  
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\NewPersonPage.xaml.cs">
+      <DependentUpon>NewPersonPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PersonDetailPage.xaml.cs">
+      <DependentUpon>PersonDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PeoplePage.xaml.cs">
+      <DependentUpon>PeoplePage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

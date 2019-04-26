@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FaceRecognition.Views.PersonDetailPage"
+             Title="{Binding Title}">
+    <StackLayout Spacing="20" Padding="15">
+        <Image Source="{Binding Person.FaceImage}" HorizontalOptions="Center" HeightRequest="64" />
+        <Label Text="Name:" FontSize="Medium" />
+        <Label Text="{Binding Person.Name}" FontSize="Small"/>
+        <Label Text="Description:" FontSize="Medium" />
+        <Label Text="{Binding Person.Description}" FontSize="Small"/>
+    </StackLayout>
+</ContentPage>

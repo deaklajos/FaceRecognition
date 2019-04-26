@@ -9,28 +9,30 @@ using FaceRecognition.ViewModels;
 namespace FaceRecognition.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ItemDetailPage : ContentPage
+    public partial class PersonDetailPage : ContentPage
     {
-        ItemDetailViewModel viewModel;
+        PersonDetailViewModel viewModel;
 
-        public ItemDetailPage(ItemDetailViewModel viewModel)
+        public PersonDetailPage(PersonDetailViewModel viewModel)
         {
             InitializeComponent();
 
             BindingContext = this.viewModel = viewModel;
         }
 
-        public ItemDetailPage()
+        
+        public PersonDetailPage()
         {
             InitializeComponent();
 
-            var item = new Item
+            // TODO better default image.
+            var item = new Person
             {
-                Text = "Item 1",
+                Name = "Item 1",
                 Description = "This is an item description."
             };
 
-            viewModel = new ItemDetailViewModel(item);
+            viewModel = new PersonDetailViewModel(item);
             BindingContext = viewModel;
         }
     }

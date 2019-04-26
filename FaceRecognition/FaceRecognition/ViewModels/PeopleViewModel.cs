@@ -10,21 +10,21 @@ using FaceRecognition.Views;
 
 namespace FaceRecognition.ViewModels
 {
-    public class ItemsViewModel : BaseViewModel
+    public class PeopleViewModel : BaseViewModel
     {
-        public ObservableCollection<Item> Items { get; set; }
+        public ObservableCollection<Person> People { get; set; }
         public Command LoadItemsCommand { get; set; }
 
-        public ItemsViewModel()
+        public PeopleViewModel()
         {
             Title = "Browse";
-            Items = new ObservableCollection<Item>();
+            People = new ObservableCollection<Person>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-            MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
+            MessagingCenter.Subscribe<NewPersonPage, Person>(this, "AddItem", async (obj, item) =>
             {
-                var newItem = item as Item;
-                Items.Add(newItem);
+                var newItem = item as Person;
+                People.Add(newItem);
                 await DataStore.AddItemAsync(newItem);
             });
         }
@@ -38,11 +38,11 @@ namespace FaceRecognition.ViewModels
 
             try
             {
-                Items.Clear();
+                People.Clear();
                 var items = await DataStore.GetItemsAsync(true);
                 foreach (var item in items)
                 {
-                    Items.Add(item);
+                    People.Add(item);
                 }
             }
             catch (Exception ex)

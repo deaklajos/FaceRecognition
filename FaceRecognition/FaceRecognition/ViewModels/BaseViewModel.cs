@@ -12,7 +12,7 @@ namespace FaceRecognition.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>() ?? new MockDataStore();
+        public IDataStore<Person> DataStore => DependencyService.Get<IDataStore<Person>>() ?? new MockDataStore();
 
         bool isBusy = false;
         public bool IsBusy

@@ -9,17 +9,18 @@ using FaceRecognition.Models;
 namespace FaceRecognition.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class NewItemPage : ContentPage
+    public partial class NewPersonPage : ContentPage
     {
-        public Item Item { get; set; }
+        public Person Person { get; set; }
 
-        public NewItemPage()
+        public NewPersonPage()
         {
             InitializeComponent();
 
-            Item = new Item
+            //TODO remove image.
+            Person = new Person
             {
-                Text = "Item name",
+                Name = "Item name",
                 Description = "This is an item description."
             };
 
@@ -28,7 +29,7 @@ namespace FaceRecognition.Views
 
         async void Save_Clicked(object sender, EventArgs e)
         {
-            MessagingCenter.Send(this, "AddItem", Item);
+            MessagingCenter.Send(this, "AddItem", Person);
             await Navigation.PopModalAsync();
         }
 
