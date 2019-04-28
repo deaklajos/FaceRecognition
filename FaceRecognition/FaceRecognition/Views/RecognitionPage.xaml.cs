@@ -35,7 +35,7 @@ namespace FaceRecognition.Views
             }
         }
 
-        async void Picked_Clicked(object sender, EventArgs e)
+        async void Pick_Clicked(object sender, EventArgs e)
         {
             var image = await viewModel.ImageProvider.PickImageAsync(this);
             if (image != null)

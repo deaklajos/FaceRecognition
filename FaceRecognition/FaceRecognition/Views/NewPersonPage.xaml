@@ -31,7 +31,7 @@
             <Entry Text="{Binding Person.Name}" FontSize="Small" />
             <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
                 <Button Text="Use Camera" Clicked="Camera_Clicked"/>
-                <Button Text="Pick Image" Clicked="Picked_Clicked"/>
+                <Button Text="Pick Image" Clicked="Pick_Clicked"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
