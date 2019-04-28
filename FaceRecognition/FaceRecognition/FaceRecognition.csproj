@@ -10,11 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="pepe.jpg" />
+    <None Remove="baseline_photo.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="pepe.jpg" />
+    <EmbeddedResource Include="baseline_photo.png" />
   </ItemGroup>
 
   <ItemGroup>

@@ -28,14 +28,20 @@ namespace FaceRecognition.Views
 
         async void Camera_Clicked(object sender, EventArgs e)
         {
-            // TODO implement
-            await Navigation.PopAsync();
+            var image = await viewModel.ImageProvider.TakePhotoAsync(this);
+            if (image != null)
+            {
+                viewModel.Image = image;
+            }
         }
 
         async void Picked_Clicked(object sender, EventArgs e)
         {
-            // TODO implement
-            await Navigation.PopAsync();
+            var image = await viewModel.ImageProvider.PickImageAsync(this);
+            if (image != null)
+            {
+                viewModel.Image = image;
+            }
         }
     }
 }

@@ -6,7 +6,9 @@
 
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
-            <Image Source="baseline_photo.png" VerticalOptions="Center" HeightRequest="128" />
+            <Image Source="{Binding Image}"
+                   VerticalOptions="Center" 
+                   HeightRequest="128"/>
             <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
                 <Button Text="Use Camera" Clicked="Camera_Clicked"/>
                 <Button Text="Pick Image" Clicked="Picked_Clicked"/>
