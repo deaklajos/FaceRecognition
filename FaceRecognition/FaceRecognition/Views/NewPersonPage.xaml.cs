@@ -5,30 +5,46 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 using FaceRecognition.Models;
+using FaceRecognition.ViewModels;
 
 namespace FaceRecognition.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewPersonPage : ContentPage
     {
-        public Person Person { get; set; }
+        NewPersonViewModel viewModel;
+
+        public NewPersonPage(NewPersonViewModel viewModel)
+        {
+            InitializeComponent();
+
+            BindingContext = this.viewModel = viewModel;
+        }
 
         public NewPersonPage()
         {
             InitializeComponent();
 
-            Person = new Person
+            // TODO add better or remove sample text.
+            var item = new Person
             {
                 Name = "Item name",
                 Description = "This is an item description."
             };
 
-            BindingContext = this;
+            viewModel = new NewPersonViewModel(item);
+            BindingContext = viewModel;
         }
 
         async void Save_Clicked(object sender, EventArgs e)
         {
-            MessagingCenter.Send(this, "AddItem", Person);
+            if(viewModel.Person.FaceImage == null)
+            {
+                await DisplayAlert("Add an image!", "Before saving the person you must add an image.", "OK");
+                return;
+            }
+                
+            MessagingCenter.Send(this, "AddItem", viewModel.Person);
             await Navigation.PopModalAsync();
         }
 
@@ -39,14 +55,22 @@ namespace FaceRecognition.Views
 
         async void Camera_Clicked(object sender, EventArgs e)
         {
-            // TODO implement
-            await Navigation.PopModalAsync();
+            var image = await viewModel.imageProvider.TakePhotoAsync(this);
+            if (image != null)
+            {
+                viewModel.Person.FaceImage = image;
+                ImageDisplay.Source = viewModel.Person.FaceImage;
+            }  
         }
 
         async void Picked_Clicked(object sender, EventArgs e)
         {
-            // TODO implement
-            await Navigation.PopModalAsync();
+            var image = await viewModel.imageProvider.PickImageAsync(this);
+            if (image != null)
+            {
+                viewModel.Person.FaceImage = image;
+                ImageDisplay.Source = viewModel.Person.FaceImage;
+            }
         }
     }
 }

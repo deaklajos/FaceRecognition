@@ -23,7 +23,10 @@
     
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
-            <Image Source="{Binding Person.FaceImage}" HorizontalOptions="Center" HeightRequest="64" />
+            <Image Source="baseline_photo.png"
+                   HorizontalOptions="Center"
+                   HeightRequest="64"
+                   x:Name="ImageDisplay"/>
             <Label Text="Name" FontSize="Medium" />
             <Entry Text="{Binding Person.Name}" FontSize="Small" />
             <StackLayout HorizontalOptions="Center" Orientation="Horizontal">

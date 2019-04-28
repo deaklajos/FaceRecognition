@@ -7,7 +7,8 @@ namespace FaceRecognition.Models
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public ImageSource FaceImage { get; set; } = ImageSource.FromResource("FaceRecognition.pepe.jpg");
+        public ImageSource FaceImage { get; set; }
+        // TODO remove this property.
         public string Description { get; set; }
     }
 }
