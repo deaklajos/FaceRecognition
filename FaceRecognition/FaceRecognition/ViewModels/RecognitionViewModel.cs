@@ -26,10 +26,9 @@ namespace FaceRecognition.ViewModels
 
         public bool IsImageSet { get; private set; } = false;
 
-        // TODO rename.
         public RecognitionViewModel()
         {
-            Title = "About";
+            Title = "Recognition";
         }
     }
 }
