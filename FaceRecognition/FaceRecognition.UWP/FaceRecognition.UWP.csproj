@@ -149,6 +149,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.Face">
+      <Version>2.4.0-preview</Version>
+    </PackageReference>
+    <PackageReference Include="PCLAppConfig">
+      <Version>0.3.4</Version>
+    </PackageReference>
     <PackageReference Include="Plugin.Permissions">
       <Version>3.0.0.12</Version>
     </PackageReference>
@@ -163,6 +169,11 @@
       <Project>{A0F23623-E178-49C8-AFB3-DD85607BF468}</Project>
       <Name>FaceRecognition</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\FaceRecognition\App.config">
+      <Link>App.config</Link>
+    </Content>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

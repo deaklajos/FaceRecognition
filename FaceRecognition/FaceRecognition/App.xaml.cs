@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using FaceRecognition.Views;
+using PCLAppConfig;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace FaceRecognition
@@ -13,7 +14,7 @@ namespace FaceRecognition
         {
             InitializeComponent();
 
-
+            ConfigurationManager.Initialise(PCLAppConfig.FileSystemStream.PortableStream.Current);
             MainPage = new MainPage();
         }
 
