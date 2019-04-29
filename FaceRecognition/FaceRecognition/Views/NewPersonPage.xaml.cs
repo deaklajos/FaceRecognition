@@ -58,7 +58,7 @@ namespace FaceRecognition.Views
             var image = await viewModel.imageProvider.TakePhotoAsync(this);
             if (image != null)
             {
-                viewModel.Person.FaceImage = image;
+                await viewModel.Person.SetImageStreamAsync(image);
                 ImageDisplay.Source = viewModel.Person.FaceImage;
             }  
         }
@@ -68,7 +68,7 @@ namespace FaceRecognition.Views
             var image = await viewModel.imageProvider.PickImageAsync(this);
             if (image != null)
             {
-                viewModel.Person.FaceImage = image;
+                await viewModel.Person.SetImageStreamAsync(image);
                 ImageDisplay.Source = viewModel.Person.FaceImage;
             }
         }

@@ -31,7 +31,7 @@ namespace FaceRecognition.Views
             var image = await viewModel.ImageProvider.TakePhotoAsync(this);
             if (image != null)
             {
-                viewModel.Image = image;
+                await viewModel.SetImageStreamAsync(image);
             }
         }
 
@@ -40,7 +40,27 @@ namespace FaceRecognition.Views
             var image = await viewModel.ImageProvider.PickImageAsync(this);
             if (image != null)
             {
-                viewModel.Image = image;
+                await viewModel.SetImageStreamAsync(image);
+            }
+        }
+
+        async void Recognize_Clicked(object sender, EventArgs e)
+        {
+            if(!viewModel.IsImageSet)
+            {
+                await DisplayAlert("Add an image!", "Before recognition you must add an image.", "OK");
+                return;
+            }
+
+            try
+            {
+                var image = await viewModel.GetImageStreamAsync();
+                var asd = await viewModel.FaceAPIWrapper.UploadAndDetectFaces(image);
+                await DisplayAlert("Done!", "Found faces: " + asd.Count, "OK");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error!", ex.Message, "OK");
             }
         }
     }

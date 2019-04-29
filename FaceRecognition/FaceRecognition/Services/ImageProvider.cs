@@ -1,6 +1,7 @@
 ﻿using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -8,9 +9,9 @@ namespace FaceRecognition.Services
 {
     public class ImageProvider
     {
-        public async Task<ImageSource> TakePhotoAsync(Page page)
+        public async Task<Stream> TakePhotoAsync(Page page)
         {
-            ImageSource image = null;
+            Stream image = null;
 
             try
             {
@@ -31,7 +32,11 @@ namespace FaceRecognition.Services
                     var photo = await Plugin.Media.CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions() { });
                     if (photo != null)
                     {
-                        image = ImageSource.FromStream(() => { return photo.GetStream(); });
+                        // Copy could possibly make this operation safer.
+                        var ms = new MemoryStream();
+                        await photo.GetStream().CopyToAsync(ms);
+                        ms.Position = 0;
+                        image = ms;
                     }
                 }
                 else if (status != PermissionStatus.Unknown)
@@ -49,10 +54,10 @@ namespace FaceRecognition.Services
             return image;
         }
 
-        public async Task<ImageSource> PickImageAsync(Page page)
+        public async Task<Stream> PickImageAsync(Page page)
         {
 
-            ImageSource image = null;
+            Stream image = null;
 
             try
             {
@@ -73,7 +78,11 @@ namespace FaceRecognition.Services
                     var photo = await Plugin.Media.CrossMedia.Current.PickPhotoAsync();
                     if (photo != null)
                     {
-                        image = ImageSource.FromStream(() => { return photo.GetStream(); });
+                        // Copy could possibly make this operation safer.
+                        var ms = new MemoryStream();
+                        await photo.GetStream().CopyToAsync(ms);
+                        ms.Position = 0;
+                        image = ms;
                     }
                 }
                 else if (status != PermissionStatus.Unknown)
