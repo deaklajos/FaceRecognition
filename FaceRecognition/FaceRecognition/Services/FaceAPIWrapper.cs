@@ -12,7 +12,7 @@ namespace FaceRecognition.Services
 {
     public class FaceAPIWrapper
     {
-        // Use your own API key in the App.config file.
+        // Use your own API key.
         private string subscriptionKey = APIKeyProvider.APIKey;
 
         private const string uriBase =
