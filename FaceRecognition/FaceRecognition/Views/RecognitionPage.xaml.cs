@@ -9,9 +9,9 @@ namespace FaceRecognition.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RecognitionPage : ContentPage
     {
-        RecognitionViewModel viewModel;
+        ImageViewModel viewModel;
 
-        public RecognitionPage(RecognitionViewModel viewModel)
+        public RecognitionPage(ImageViewModel viewModel)
         {
             InitializeComponent();
 
@@ -22,26 +22,18 @@ namespace FaceRecognition.Views
         {
             InitializeComponent();
 
-            viewModel = new RecognitionViewModel();
+            viewModel = new ImageViewModel();
             BindingContext = viewModel;
         }
 
         async void Camera_Clicked(object sender, EventArgs e)
         {
-            var image = await viewModel.ImageProvider.TakePhotoAsync(this);
-            if (image != null)
-            {
-                await viewModel.SetImageStreamAsync(image);
-            }
+            await viewModel.TakePhotoAsync(this);
         }
 
         async void Pick_Clicked(object sender, EventArgs e)
         {
-            var image = await viewModel.ImageProvider.PickImageAsync(this);
-            if (image != null)
-            {
-                await viewModel.SetImageStreamAsync(image);
-            }
+            await viewModel.PickImageAsync(this);
         }
 
         async void Recognize_Clicked(object sender, EventArgs e)
@@ -52,16 +44,16 @@ namespace FaceRecognition.Views
                 return;
             }
 
-            try
-            {
-                var image = await viewModel.GetImageStreamAsync();
-                var asd = await viewModel.FaceAPIWrapper.UploadAndDetectFaces(image);
-                await DisplayAlert("Done!", "Found faces: " + asd.Count, "OK");
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error!", ex.Message, "OK");
-            }
+            //try
+            //{
+            //    var image = await viewModel.GetImageStreamAsync();
+            //    var asd = await viewModel.FaceAPIWrapper.UploadAndDetectFaces(image);
+            //    await DisplayAlert("Done!", "Found faces: " + asd.Count, "OK");
+            //}
+            //catch (Exception ex)
+            //{
+            //    await DisplayAlert("Error!", ex.Message, "OK");
+            //}
         }
     }
 }

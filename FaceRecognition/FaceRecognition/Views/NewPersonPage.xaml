@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FaceRecognition.Views.NewPersonPage"
-             Title="New Item">
+             Title="New Person">
     
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Cancel" Clicked="Cancel_Clicked">
@@ -23,12 +23,11 @@
     
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
-            <Image Source="baseline_photo.png"
-                   HorizontalOptions="Center"
-                   HeightRequest="64"
-                   x:Name="ImageDisplay"/>
+            <Image Source="{Binding Image}"
+                   VerticalOptions="Center" 
+                   HeightRequest="128"/>
             <Label Text="Name" FontSize="Medium" />
-            <Entry Text="{Binding Person.Name}" FontSize="Small" />
+            <Entry Text="{Binding Person.name}" FontSize="Small" />
             <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
                 <Button Text="Use Camera" Clicked="Camera_Clicked"/>
                 <Button Text="Pick Image" Clicked="Pick_Clicked"/>

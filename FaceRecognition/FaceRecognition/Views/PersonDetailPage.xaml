@@ -4,9 +4,8 @@
              x:Class="FaceRecognition.Views.PersonDetailPage"
              Title="{Binding Title}">
     <StackLayout Spacing="5" Padding="15">
-        <Image Source="{Binding Person.FaceImage}" HorizontalOptions="Center" HeightRequest="64" />
         <Label Text="Name:" FontSize="Medium" />
-        <Label Text="{Binding Person.Name}" FontSize="Small"/>
+        <Label Text="{Binding Person.name}" FontSize="Small"/>
         <Button Text="Recognize Me!" Clicked="Recognize_Clicked"/>
         <Button Text="Recognize EveryBody!" Clicked="Recognize_Clicked"/>
     </StackLayout>

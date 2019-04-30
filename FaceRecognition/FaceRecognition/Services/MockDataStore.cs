@@ -7,39 +7,30 @@ using Xamarin.Forms;
 
 namespace FaceRecognition.Services
 {
-    public class MockDataStore : IDataStore<PersonOld>
+    public class MockDataStore : IDataStore<Person>
     {
-        List<PersonOld> people;
+        IList<Person> people;
+        private FaceAPIWrapper FaceAPIWrapper = new FaceAPIWrapper();
 
-        public MockDataStore()
+        private async Task InitPeopleAsync()
         {
-            people = new List<PersonOld>();
-            var mockItems = new List<PersonOld>
-            {
-                new PersonOld { Id = Guid.NewGuid().ToString(), Name = "First item", Description="This is an item description." },
-                new PersonOld { Id = Guid.NewGuid().ToString(), Name = "Second item", Description="This is an item description." },
-                new PersonOld { Id = Guid.NewGuid().ToString(), Name = "Third item", Description="This is an item description." },
-                new PersonOld { Id = Guid.NewGuid().ToString(), Name = "Fourth item", Description="This is an item description." },
-                new PersonOld { Id = Guid.NewGuid().ToString(), Name = "Fifth item", Description="This is an item description." },
-                new PersonOld { Id = Guid.NewGuid().ToString(), Name = "Sixth item", Description="This is an item description." },
-            };
+            if (people != null) return;
 
-            foreach (var person in mockItems)
-            {
-                people.Add(person);
-            }
+            people = await FaceAPIWrapper.ListAllPersonAsync();
         }
 
-        public async Task<bool> AddItemAsync(PersonOld person)
+        public async Task<bool> AddItemAsync(Person person)
         {
+            await InitPeopleAsync();
             people.Add(person);
 
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> UpdateItemAsync(PersonOld item)
+        public async Task<bool> UpdateItemAsync(Person item)
         {
-            var oldItem = people.Where((PersonOld arg) => arg.Id == item.Id).FirstOrDefault();
+            await InitPeopleAsync();
+            var oldItem = people.Where((Person arg) => arg.personId == item.personId).FirstOrDefault();
             people.Remove(oldItem);
             people.Add(item);
 
@@ -48,19 +39,22 @@ namespace FaceRecognition.Services
 
         public async Task<bool> DeleteItemAsync(string id)
         {
-            var oldItem = people.Where((PersonOld arg) => arg.Id == id).FirstOrDefault();
+            await InitPeopleAsync();
+            var oldItem = people.Where((Person arg) => arg.personId == id).FirstOrDefault();
             people.Remove(oldItem);
 
             return await Task.FromResult(true);
         }
 
-        public async Task<PersonOld> GetItemAsync(string id)
+        public async Task<Person> GetItemAsync(string id)
         {
-            return await Task.FromResult(people.FirstOrDefault(s => s.Id == id));
+            await InitPeopleAsync();
+            return await Task.FromResult(people.FirstOrDefault(s => s.personId == id));
         }
 
-        public async Task<IEnumerable<PersonOld>> GetItemsAsync(bool forceRefresh = false)
+        public async Task<IEnumerable<Person>> GetItemsAsync(bool forceRefresh = false)
         {
+            await InitPeopleAsync();
             return await Task.FromResult(people);
         }
     }

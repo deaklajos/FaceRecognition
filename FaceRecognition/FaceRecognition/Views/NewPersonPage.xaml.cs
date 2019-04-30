@@ -12,9 +12,9 @@ namespace FaceRecognition.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewPersonPage : ContentPage
     {
-        NewPersonViewModel viewModel;
+        ImageViewModel viewModel;
 
-        public NewPersonPage(NewPersonViewModel viewModel)
+        public NewPersonPage(ImageViewModel viewModel)
         {
             InitializeComponent();
 
@@ -25,20 +25,18 @@ namespace FaceRecognition.Views
         {
             InitializeComponent();
 
-            // TODO add better or remove sample text.
-            var item = new PersonOld
+            var item = new Person
             {
-                Name = "Item name",
-                Description = "This is an item description."
+                name = "Name"
             };
 
-            viewModel = new NewPersonViewModel(item);
+            viewModel = new ImageViewModel(item);
             BindingContext = viewModel;
         }
 
         async void Save_Clicked(object sender, EventArgs e)
         {
-            if(viewModel.Person.FaceImage == null)
+            if(!viewModel.IsImageSet)
             {
                 await DisplayAlert("Add an image!", "Before saving the person you must add an image.", "OK");
                 return;
@@ -55,22 +53,12 @@ namespace FaceRecognition.Views
 
         async void Camera_Clicked(object sender, EventArgs e)
         {
-            var image = await viewModel.imageProvider.TakePhotoAsync(this);
-            if (image != null)
-            {
-                await viewModel.Person.SetImageStreamAsync(image);
-                ImageDisplay.Source = viewModel.Person.FaceImage;
-            }  
+            await viewModel.TakePhotoAsync(this);
         }
 
         async void Pick_Clicked(object sender, EventArgs e)
         {
-            var image = await viewModel.imageProvider.PickImageAsync(this);
-            if (image != null)
-            {
-                await viewModel.Person.SetImageStreamAsync(image);
-                ImageDisplay.Source = viewModel.Person.FaceImage;
-            }
+            await viewModel.PickImageAsync(this);
         }
     }
 }

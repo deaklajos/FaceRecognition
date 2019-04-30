@@ -24,10 +24,9 @@ namespace FaceRecognition.Views
         {
             InitializeComponent();
 
-            var item = new PersonOld
+            var item = new Person
             {
-                Name = "Item 1",
-                Description = "This is an item description."
+                name = "Item 1"
             };
 
             viewModel = new PersonDetailViewModel(item);

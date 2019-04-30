@@ -6,10 +6,10 @@ namespace FaceRecognition.ViewModels
 {
     public class PersonDetailViewModel : BaseViewModel
     {
-        public PersonOld Person { get; set; }
-        public PersonDetailViewModel(PersonOld item = null)
+        public Person Person { get; set; }
+        public PersonDetailViewModel(Person item = null)
         {
-            Title = item?.Name;
+            Title = item?.name;
             Person = item;
         }
     }

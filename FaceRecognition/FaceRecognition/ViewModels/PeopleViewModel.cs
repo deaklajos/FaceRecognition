@@ -12,18 +12,18 @@ namespace FaceRecognition.ViewModels
 {
     public class PeopleViewModel : BaseViewModel
     {
-        public ObservableCollection<PersonOld> People { get; set; }
+        public ObservableCollection<Person> People { get; set; }
         public Command LoadItemsCommand { get; set; }
 
         public PeopleViewModel()
         {
             Title = "Browse";
-            People = new ObservableCollection<PersonOld>();
+            People = new ObservableCollection<Person>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-            MessagingCenter.Subscribe<NewPersonPage, PersonOld>(this, "AddItem", async (obj, item) =>
+            MessagingCenter.Subscribe<NewPersonPage, Person>(this, "AddItem", async (obj, item) =>
             {
-                var newItem = item as PersonOld;
+                var newItem = item as Person;
                 People.Add(newItem);
                 await DataStore.AddItemAsync(newItem);
             });

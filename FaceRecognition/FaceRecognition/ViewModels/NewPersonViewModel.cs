@@ -7,12 +7,12 @@ namespace FaceRecognition.ViewModels
 {
     public class NewPersonViewModel : BaseViewModel
     {
-        public PersonOld Person { get; set; }
+        public Person Person { get; set; }
         public ImageProvider imageProvider = new ImageProvider();
 
-        public NewPersonViewModel(PersonOld item = null)
+        public NewPersonViewModel(Person item = null)
         {
-            Title = item?.Name;
+            Title = item?.name;
             Person = item;
         }
     }

@@ -23,6 +23,14 @@ namespace FaceRecognition.Services
         private const string personUri = "persons";
 
         private HttpClient client = new HttpClient();
+        private PersonGroup group = null;
+
+        private async Task InitGroupAsync()
+        {
+            if(group != null) return;
+
+            group = await GetPersonGroupAsync();
+        }
 
         public FaceAPIWrapper()
         {
@@ -30,7 +38,7 @@ namespace FaceRecognition.Services
                 "Ocp-Apim-Subscription-Key", subscriptionKey);
         }
 
-        public async Task<PersonGroup> GetPersonGroupAsync()
+        private async Task<PersonGroup> GetPersonGroupAsync()
         {
             var groups = await ListPersonGroupsAsync();
             if (groups.Count > 0)
@@ -40,7 +48,7 @@ namespace FaceRecognition.Services
             return group;
         }
 
-        private async Task<List<PersonGroup>> ListPersonGroupsAsync()
+        private async Task<IList<PersonGroup>> ListPersonGroupsAsync()
         {
             var response = await client.GetAsync(uriBase + personGroupUri);
             response.EnsureSuccessStatusCode();
@@ -79,8 +87,9 @@ namespace FaceRecognition.Services
             }
         }
 
-        public async Task AddPersonAsync(string name, Stream image, PersonGroup group)
+        public async Task AddPersonAsync(string name, Stream image)
         {
+            await InitGroupAsync();
 
             var requestString =
                 $@"{{
@@ -124,8 +133,10 @@ namespace FaceRecognition.Services
             }
         }
 
-        public async Task DeletePersonAsync(Person person, PersonGroup group)
+        public async Task DeletePersonAsync(Person person)
         {
+            await InitGroupAsync();
+
             var uri = uriBase + personGroupUri + "/" +
                 group.personGroupId + "/" + personUri + "/" + person.personId;
 
@@ -133,8 +144,10 @@ namespace FaceRecognition.Services
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task<IList<Person>> ListAllPersonAsync(PersonGroup group)
+        public async Task<IList<Person>> ListAllPersonAsync()
         {
+            await InitGroupAsync();
+
             var uri = uriBase + personGroupUri + "/" +
                 group.personGroupId + "/" + personUri;
 

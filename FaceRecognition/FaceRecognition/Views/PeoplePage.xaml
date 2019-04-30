@@ -26,21 +26,14 @@
                 ItemSelected="OnItemSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
-
                     <ViewCell>
                         <StackLayout Padding="10" Orientation="Horizontal">
-                            <Image Source="{Binding FaceImage}"
-                                   HeightRequest="64" />
-                            <Label Text="{Binding Name}" 
+                            <Label Text="{Binding name}" 
                                 LineBreakMode="NoWrap" 
                                 Style="{DynamicResource ListItemTextStyle}" 
                                 FontSize="16" />
                         </StackLayout>
                     </ViewCell>
-
-                    <!--
-                    <ImageCell Height="64" ImageSource="{Binding FaceImage}" Text="{Binding Name}" />
-                -->
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

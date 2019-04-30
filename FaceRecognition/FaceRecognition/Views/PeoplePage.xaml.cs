@@ -27,7 +27,7 @@ namespace FaceRecognition.Views
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
         {
-            var item = args.SelectedItem as PersonOld;
+            var item = args.SelectedItem as Person;
             if (item == null)
                 return;
 
