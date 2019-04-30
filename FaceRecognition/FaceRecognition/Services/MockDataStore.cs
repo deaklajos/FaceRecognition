@@ -7,21 +7,21 @@ using Xamarin.Forms;
 
 namespace FaceRecognition.Services
 {
-    public class MockDataStore : IDataStore<Person>
+    public class MockDataStore : IDataStore<PersonOld>
     {
-        List<Person> people;
+        List<PersonOld> people;
 
         public MockDataStore()
         {
-            people = new List<Person>();
-            var mockItems = new List<Person>
+            people = new List<PersonOld>();
+            var mockItems = new List<PersonOld>
             {
-                new Person { Id = Guid.NewGuid().ToString(), Name = "First item", Description="This is an item description." },
-                new Person { Id = Guid.NewGuid().ToString(), Name = "Second item", Description="This is an item description." },
-                new Person { Id = Guid.NewGuid().ToString(), Name = "Third item", Description="This is an item description." },
-                new Person { Id = Guid.NewGuid().ToString(), Name = "Fourth item", Description="This is an item description." },
-                new Person { Id = Guid.NewGuid().ToString(), Name = "Fifth item", Description="This is an item description." },
-                new Person { Id = Guid.NewGuid().ToString(), Name = "Sixth item", Description="This is an item description." },
+                new PersonOld { Id = Guid.NewGuid().ToString(), Name = "First item", Description="This is an item description." },
+                new PersonOld { Id = Guid.NewGuid().ToString(), Name = "Second item", Description="This is an item description." },
+                new PersonOld { Id = Guid.NewGuid().ToString(), Name = "Third item", Description="This is an item description." },
+                new PersonOld { Id = Guid.NewGuid().ToString(), Name = "Fourth item", Description="This is an item description." },
+                new PersonOld { Id = Guid.NewGuid().ToString(), Name = "Fifth item", Description="This is an item description." },
+                new PersonOld { Id = Guid.NewGuid().ToString(), Name = "Sixth item", Description="This is an item description." },
             };
 
             foreach (var person in mockItems)
@@ -30,16 +30,16 @@ namespace FaceRecognition.Services
             }
         }
 
-        public async Task<bool> AddItemAsync(Person person)
+        public async Task<bool> AddItemAsync(PersonOld person)
         {
             people.Add(person);
 
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> UpdateItemAsync(Person item)
+        public async Task<bool> UpdateItemAsync(PersonOld item)
         {
-            var oldItem = people.Where((Person arg) => arg.Id == item.Id).FirstOrDefault();
+            var oldItem = people.Where((PersonOld arg) => arg.Id == item.Id).FirstOrDefault();
             people.Remove(oldItem);
             people.Add(item);
 
@@ -48,18 +48,18 @@ namespace FaceRecognition.Services
 
         public async Task<bool> DeleteItemAsync(string id)
         {
-            var oldItem = people.Where((Person arg) => arg.Id == id).FirstOrDefault();
+            var oldItem = people.Where((PersonOld arg) => arg.Id == id).FirstOrDefault();
             people.Remove(oldItem);
 
             return await Task.FromResult(true);
         }
 
-        public async Task<Person> GetItemAsync(string id)
+        public async Task<PersonOld> GetItemAsync(string id)
         {
             return await Task.FromResult(people.FirstOrDefault(s => s.Id == id));
         }
 
-        public async Task<IEnumerable<Person>> GetItemsAsync(bool forceRefresh = false)
+        public async Task<IEnumerable<PersonOld>> GetItemsAsync(bool forceRefresh = false)
         {
             return await Task.FromResult(people);
         }

@@ -26,7 +26,7 @@ namespace FaceRecognition.Views
             InitializeComponent();
 
             // TODO add better or remove sample text.
-            var item = new Person
+            var item = new PersonOld
             {
                 Name = "Item name",
                 Description = "This is an item description."

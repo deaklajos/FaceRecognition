@@ -24,7 +24,7 @@ namespace FaceRecognition.Views
         {
             InitializeComponent();
 
-            var item = new Person
+            var item = new PersonOld
             {
                 Name = "Item 1",
                 Description = "This is an item description."
