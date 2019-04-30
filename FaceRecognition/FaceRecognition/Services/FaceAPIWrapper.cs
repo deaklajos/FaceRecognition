@@ -1,13 +1,13 @@
-﻿using Microsoft.Azure.CognitiveServices.Vision.Face;
-using System.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using PCLAppConfig;
-using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using FaceRecognition.Models;
+using System.Web;
+using System.Text;
 
 namespace FaceRecognition.Services
 {
@@ -16,33 +16,91 @@ namespace FaceRecognition.Services
         // Use your own API key in the App.config file.
         private string subscriptionKey = ConfigurationManager.AppSettings["APIKey"];
 
-        private const string faceEndpoint =
-    "https://northeurope.api.cognitive.microsoft.com";
+        private const string uriBase =
+            "https://northeurope.api.cognitive.microsoft.com/face/v1.0/";
 
-        private readonly IFaceClient faceClient;
+        private const string detecturi = "detect";
+        private const string persongroupuri = "persongroups";
+
+        private HttpClient client = new HttpClient();
 
         public FaceAPIWrapper()
         {
-            faceClient = new FaceClient(
-            new ApiKeyServiceClientCredentials(subscriptionKey),
-            new System.Net.Http.DelegatingHandler[] { });
-
-            if (Uri.IsWellFormedUriString(faceEndpoint, UriKind.Absolute))
-                faceClient.Endpoint = faceEndpoint;
-            else
-                throw new FormatException("Invalid URI: " + faceEndpoint);
+            client.DefaultRequestHeaders.Add(
+                "Ocp-Apim-Subscription-Key", subscriptionKey);
         }
 
-        public async Task<IList<DetectedFace>> UploadAndDetectFaces(Stream imageStream)
+        public async Task<PersonGroup> GetPersonGroupAsync()
         {
-            IList<FaceAttributeType> faceAttributes =
-                new FaceAttributeType[]
-                { FaceAttributeType.Gender, FaceAttributeType.Age };
+            var groups = await ListPersonGroupsAsync();
+            if (groups.Count > 0)
+                return groups[0];
 
-            IList<DetectedFace> faceList =
-                await faceClient.Face.DetectWithStreamAsync(
-                    imageStream, true, false, faceAttributes);
-            return faceList;
+            var group = await CreatePersonGroupAsync();
+            return group;
+        }
+
+        private async Task<List<PersonGroup>> ListPersonGroupsAsync()
+        {
+            var response = await client.GetAsync(uriBase + persongroupuri);
+            response.EnsureSuccessStatusCode();
+            var contentString = await response.Content.ReadAsStringAsync();
+
+            // TODO async
+            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<List<PersonGroup>>(contentString);
+            return result;
+        }
+
+        private async Task<PersonGroup> CreatePersonGroupAsync()
+        {
+            var requestString = @"{
+    ""name"": ""default_group"",
+    ""userData"": ""Default group, every property is hard-coded."",
+    ""recognitionModel"": ""recognition_02""
+}";
+
+            var byteContent = Encoding.UTF8.GetBytes(requestString);
+            using (ByteArrayContent content = new ByteArrayContent(byteContent))
+            {
+                content.Headers.ContentType =
+                    new MediaTypeHeaderValue("application/json");
+
+                var response = await client.PutAsync(uriBase + persongroupuri + "/default_id", content);
+                response.EnsureSuccessStatusCode();
+
+                string contentString = await response.Content.ReadAsStringAsync();
+                return new PersonGroup {
+                    personGroupId = "defaultId",
+                    name = "default_group", userData = "",
+                    recognitionModel = "recognition_02" };
+                }
+        }
+
+        public async Task<IList<Face>> UploadAndDetectFaces(Stream imageStream)
+        {
+            string requestParameters = "returnFaceId=true&returnFaceLandmarks=false" +
+                "&returnFaceAttributes=age,gender";
+
+            string uri = uriBase + detecturi + "?" + requestParameters;
+
+            HttpResponseMessage response;
+
+            MemoryStream ms = new MemoryStream();
+            imageStream.CopyTo(ms);
+            byte[] byteData = ms.ToArray();
+
+            using (ByteArrayContent content = new ByteArrayContent(byteData))
+            {
+                content.Headers.ContentType =
+                    new MediaTypeHeaderValue("application/octet-stream");
+
+                response = await client.PostAsync(uri, content);
+                response.EnsureSuccessStatusCode();
+
+                string contentString = await response.Content.ReadAsStringAsync();
+                // TODO async
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<List<Face>>(contentString);
+            }
         }
     }
 }
