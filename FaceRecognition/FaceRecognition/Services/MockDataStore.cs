@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using FaceRecognition.Models;
@@ -7,7 +8,7 @@ using Xamarin.Forms;
 
 namespace FaceRecognition.Services
 {
-    public class MockDataStore : IDataStore<Person>
+    public class MockDataStore
     {
         IList<Person> people;
         private FaceAPIWrapper FaceAPIWrapper = new FaceAPIWrapper();
@@ -19,20 +20,11 @@ namespace FaceRecognition.Services
             people = await FaceAPIWrapper.ListAllPersonAsync();
         }
 
-        public async Task<bool> AddItemAsync(Person person)
+        public async Task<bool> AddItemAsync(Person person, Stream image)
         {
             await InitPeopleAsync();
+            await FaceAPIWrapper.AddPersonAsync(person.name, image);
             people.Add(person);
-
-            return await Task.FromResult(true);
-        }
-
-        public async Task<bool> UpdateItemAsync(Person item)
-        {
-            await InitPeopleAsync();
-            var oldItem = people.Where((Person arg) => arg.personId == item.personId).FirstOrDefault();
-            people.Remove(oldItem);
-            people.Add(item);
 
             return await Task.FromResult(true);
         }
@@ -41,6 +33,7 @@ namespace FaceRecognition.Services
         {
             await InitPeopleAsync();
             var oldItem = people.Where((Person arg) => arg.personId == id).FirstOrDefault();
+            await FaceAPIWrapper.DeletePersonAsync(oldItem);
             people.Remove(oldItem);
 
             return await Task.FromResult(true);

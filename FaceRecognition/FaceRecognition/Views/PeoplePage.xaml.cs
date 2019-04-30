@@ -31,7 +31,7 @@ namespace FaceRecognition.Views
             if (item == null)
                 return;
 
-            await Navigation.PushAsync(new PersonDetailPage(new PersonDetailViewModel(item)));
+            await Navigation.PushAsync(new PersonDetailPage(new PersonDetailViewModel(item), viewModel));
 
             // Manually deselect item.
             ItemsListView.SelectedItem = null;
@@ -39,7 +39,7 @@ namespace FaceRecognition.Views
 
         async void AddItem_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new NavigationPage(new NewPersonPage()));
+            await Navigation.PushAsync(new NewPersonPage(viewModel));
         }
 
         protected override void OnAppearing()

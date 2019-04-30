@@ -54,7 +54,7 @@ namespace FaceRecognition.ViewModels
             }
         }
 
-        private async Task<Stream> GetImageStreamAsync()
+        public async Task<Stream> GetImageStreamAsync()
         {
             // TODO test if only ImageSource requires copy
             // Copy required beause it seems like

@@ -13,15 +13,9 @@ namespace FaceRecognition.Views
     public partial class NewPersonPage : ContentPage
     {
         ImageViewModel viewModel;
+        PeopleViewModel PeopleViewModel;
 
-        public NewPersonPage(ImageViewModel viewModel)
-        {
-            InitializeComponent();
-
-            BindingContext = this.viewModel = viewModel;
-        }
-
-        public NewPersonPage()
+        public NewPersonPage(PeopleViewModel peopleViewModel)
         {
             InitializeComponent();
 
@@ -32,6 +26,7 @@ namespace FaceRecognition.Views
 
             viewModel = new ImageViewModel(item);
             BindingContext = viewModel;
+            PeopleViewModel = peopleViewModel;
         }
 
         async void Save_Clicked(object sender, EventArgs e)
@@ -41,14 +36,24 @@ namespace FaceRecognition.Views
                 await DisplayAlert("Add an image!", "Before saving the person you must add an image.", "OK");
                 return;
             }
-                
-            MessagingCenter.Send(this, "AddItem", viewModel.Person);
-            await Navigation.PopModalAsync();
+
+            try
+            {
+                var imageStream = await viewModel.GetImageStreamAsync();
+                await PeopleViewModel.AddPersonAsync(viewModel.Person, imageStream);
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error!", ex.Message, "OK");
+                return;
+            }
+
+            await Navigation.PopAsync();
         }
 
         async void Cancel_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PopModalAsync();
+            await Navigation.PopAsync();
         }
 
         async void Camera_Clicked(object sender, EventArgs e)

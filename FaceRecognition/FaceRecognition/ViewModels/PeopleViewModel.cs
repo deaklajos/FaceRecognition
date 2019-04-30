@@ -7,6 +7,8 @@ using Xamarin.Forms;
 
 using FaceRecognition.Models;
 using FaceRecognition.Views;
+using FaceRecognition.Services;
+using System.IO;
 
 namespace FaceRecognition.ViewModels
 {
@@ -14,19 +16,25 @@ namespace FaceRecognition.ViewModels
     {
         public ObservableCollection<Person> People { get; set; }
         public Command LoadItemsCommand { get; set; }
+        public MockDataStore DataStore = new MockDataStore();
 
         public PeopleViewModel()
         {
             Title = "Browse";
             People = new ObservableCollection<Person>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+        }
 
-            MessagingCenter.Subscribe<NewPersonPage, Person>(this, "AddItem", async (obj, item) =>
-            {
-                var newItem = item as Person;
-                People.Add(newItem);
-                await DataStore.AddItemAsync(newItem);
-            });
+        public async Task AddPersonAsync(Person person, Stream image)
+        {
+            await DataStore.AddItemAsync(person, image);
+            People.Add(person);
+        }
+
+        public async Task DeletePersonAsync(Person person)
+        {
+            await DataStore.DeleteItemAsync(person.personId);
+            People.Remove(person);
         }
 
         async Task ExecuteLoadItemsCommand()

@@ -12,25 +12,34 @@ namespace FaceRecognition.Views
     public partial class PersonDetailPage : ContentPage
     {
         PersonDetailViewModel viewModel;
+        PeopleViewModel PeopleViewModel;
 
-        public PersonDetailPage(PersonDetailViewModel viewModel)
+        public PersonDetailPage(PersonDetailViewModel viewModel, PeopleViewModel peopleViewModel)
         {
             InitializeComponent();
 
             BindingContext = this.viewModel = viewModel;
+            PeopleViewModel = peopleViewModel;
         }
-        
-        public PersonDetailPage()
+
+        async void Delete_Clicked(object sender, EventArgs e)
         {
-            InitializeComponent();
-
-            var item = new Person
+            try
             {
-                name = "Item 1"
-            };
+                await PeopleViewModel.DeletePersonAsync(viewModel.Person);
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error!", ex.Message, "OK");
+                return;
+            }
 
-            viewModel = new PersonDetailViewModel(item);
-            BindingContext = viewModel;
+            await Navigation.PopAsync();
+        }
+
+        async void Cancel_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PopAsync();
         }
 
         async void Recognize_Clicked(object sender, EventArgs e)
