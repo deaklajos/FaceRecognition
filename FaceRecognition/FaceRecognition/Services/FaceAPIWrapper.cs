@@ -19,8 +19,9 @@ namespace FaceRecognition.Services
         private const string uriBase =
             "https://northeurope.api.cognitive.microsoft.com/face/v1.0/";
 
-        private const string detecturi = "detect";
-        private const string persongroupuri = "persongroups";
+        private const string detectUri = "detect";
+        private const string personGroupUri = "persongroups";
+        private const string personUri = "persons";
 
         private HttpClient client = new HttpClient();
 
@@ -42,7 +43,7 @@ namespace FaceRecognition.Services
 
         private async Task<List<PersonGroup>> ListPersonGroupsAsync()
         {
-            var response = await client.GetAsync(uriBase + persongroupuri);
+            var response = await client.GetAsync(uriBase + personGroupUri);
             response.EnsureSuccessStatusCode();
             var contentString = await response.Content.ReadAsStringAsync();
 
@@ -65,15 +66,64 @@ namespace FaceRecognition.Services
                 content.Headers.ContentType =
                     new MediaTypeHeaderValue("application/json");
 
-                var response = await client.PutAsync(uriBase + persongroupuri + "/default_id", content);
+                var response = await client.PutAsync(uriBase + personGroupUri + "/default_id", content);
                 response.EnsureSuccessStatusCode();
 
                 string contentString = await response.Content.ReadAsStringAsync();
-                return new PersonGroup {
+                return new PersonGroup
+                {
                     personGroupId = "defaultId",
-                    name = "default_group", userData = "",
-                    recognitionModel = "recognition_02" };
-                }
+                    name = "default_group",
+                    userData = "",
+                    recognitionModel = "recognition_02"
+                };
+            }
+        }
+
+        public async Task AddPersonAsync(string name, Stream image, PersonGroup group)
+        {
+
+            var requestString =
+                $@"{{
+                ""name"": ""{name}""
+                }}";
+
+            var byteContent = Encoding.UTF8.GetBytes(requestString);
+            using (ByteArrayContent content = new ByteArrayContent(byteContent))
+            {
+                content.Headers.ContentType =
+                    new MediaTypeHeaderValue("application/json");
+
+                var uri = uriBase + personGroupUri + "/" +
+                    group.personGroupId + "/" + personUri;
+
+                var response = await client.PostAsync(uri, content);
+                response.EnsureSuccessStatusCode();
+            }
+
+            // TODO add face.
+        }
+
+        public async Task DeletePersonAsync(Person person, PersonGroup group)
+        {
+            var uri = uriBase + personGroupUri + "/" +
+                group.personGroupId + "/" + personUri + "/" + person.personId;
+
+            var response = await client.DeleteAsync(uri);
+            response.EnsureSuccessStatusCode();
+        }
+
+        public async Task<IList<Person>> ListAllPersonAsync(PersonGroup group)
+        {
+            var uri = uriBase + personGroupUri + "/" +
+                group.personGroupId + "/" + personUri;
+
+            var response = await client.GetAsync(uri);
+            response.EnsureSuccessStatusCode();
+
+            string contentString = await response.Content.ReadAsStringAsync();
+            // TODO async
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<List<Person>>(contentString);
         }
 
         public async Task<IList<Face>> UploadAndDetectFaces(Stream imageStream)
@@ -81,7 +131,7 @@ namespace FaceRecognition.Services
             string requestParameters = "returnFaceId=true&returnFaceLandmarks=false" +
                 "&returnFaceAttributes=age,gender";
 
-            string uri = uriBase + detecturi + "?" + requestParameters;
+            string uri = uriBase + detectUri + "?" + requestParameters;
 
             HttpResponseMessage response;
 
