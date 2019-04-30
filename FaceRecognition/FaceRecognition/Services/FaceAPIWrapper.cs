@@ -88,6 +88,7 @@ namespace FaceRecognition.Services
                 ""name"": ""{name}""
                 }}";
 
+            Person newPerson;
             var byteContent = Encoding.UTF8.GetBytes(requestString);
             using (ByteArrayContent content = new ByteArrayContent(byteContent))
             {
@@ -99,9 +100,29 @@ namespace FaceRecognition.Services
 
                 var response = await client.PostAsync(uri, content);
                 response.EnsureSuccessStatusCode();
+
+                string contentString = await response.Content.ReadAsStringAsync();
+
+                // TODO async
+                newPerson = Newtonsoft.Json.JsonConvert.DeserializeObject<Person>(contentString);
             }
 
-            // TODO add face.
+            // Add face.
+            MemoryStream ms = new MemoryStream();
+            image.CopyTo(ms);
+            byte[] byteData = ms.ToArray();
+            using (ByteArrayContent content = new ByteArrayContent(byteData))
+            {
+                content.Headers.ContentType =
+                    new MediaTypeHeaderValue("application/octet-stream");
+
+                var uri = uriBase + personGroupUri + "/" +
+                    group.personGroupId + "/" + personUri + "/" +
+                    newPerson.personId + "/persistedFaces";
+
+                var response = await client.PostAsync(uri, content);
+                response.EnsureSuccessStatusCode();
+            }
         }
 
         public async Task DeletePersonAsync(Person person, PersonGroup group)
