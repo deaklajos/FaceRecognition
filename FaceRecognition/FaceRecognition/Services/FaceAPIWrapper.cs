@@ -27,7 +27,7 @@ namespace FaceRecognition.Services
 
         private async Task InitGroupAsync()
         {
-            if(group != null) return;
+            if (group != null) return;
 
             group = await GetPersonGroupAsync();
         }
@@ -51,7 +51,8 @@ namespace FaceRecognition.Services
         private async Task<IList<PersonGroup>> ListPersonGroupsAsync()
         {
             var response = await client.GetAsync(uriBase + personGroupUri);
-            response.EnsureSuccessStatusCode();
+            await CheckResponseAsync(response);
+
             var contentString = await response.Content.ReadAsStringAsync();
 
             // TODO async
@@ -74,7 +75,7 @@ namespace FaceRecognition.Services
                     new MediaTypeHeaderValue("application/json");
 
                 var response = await client.PutAsync(uriBase + personGroupUri + "/default_id", content);
-                response.EnsureSuccessStatusCode();
+                await CheckResponseAsync(response);
 
                 string contentString = await response.Content.ReadAsStringAsync();
                 return new PersonGroup
@@ -107,7 +108,7 @@ namespace FaceRecognition.Services
                     group.personGroupId + "/" + personUri;
 
                 var response = await client.PostAsync(uri, content);
-                response.EnsureSuccessStatusCode();
+                await CheckResponseAsync(response);
 
                 string contentString = await response.Content.ReadAsStringAsync();
 
@@ -129,7 +130,9 @@ namespace FaceRecognition.Services
                     newPerson.personId + "/persistedFaces";
 
                 var response = await client.PostAsync(uri, content);
-                response.EnsureSuccessStatusCode();
+                if (!response.IsSuccessStatusCode)
+                    await DeletePersonAsync(newPerson);
+                await CheckResponseAsync(response);
             }
         }
 
@@ -141,7 +144,7 @@ namespace FaceRecognition.Services
                 group.personGroupId + "/" + personUri + "/" + person.personId;
 
             var response = await client.DeleteAsync(uri);
-            response.EnsureSuccessStatusCode();
+            await CheckResponseAsync(response);
         }
 
         public async Task<IList<Person>> ListAllPersonAsync()
@@ -152,7 +155,7 @@ namespace FaceRecognition.Services
                 group.personGroupId + "/" + personUri;
 
             var response = await client.GetAsync(uri);
-            response.EnsureSuccessStatusCode();
+            await CheckResponseAsync(response);
 
             string contentString = await response.Content.ReadAsStringAsync();
             // TODO async
@@ -178,12 +181,23 @@ namespace FaceRecognition.Services
                     new MediaTypeHeaderValue("application/octet-stream");
 
                 response = await client.PostAsync(uri, content);
-                response.EnsureSuccessStatusCode();
+                await CheckResponseAsync(response);
 
                 string contentString = await response.Content.ReadAsStringAsync();
                 // TODO async
                 return Newtonsoft.Json.JsonConvert.DeserializeObject<List<Face>>(contentString);
             }
+        }
+
+        public async Task CheckResponseAsync(HttpResponseMessage response)
+        {
+            if (response.IsSuccessStatusCode) return;
+
+            string contentString = await response.Content.ReadAsStringAsync();
+
+            var errorResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<APIErrorResponse>(contentString);
+            var errorString = $"{errorResponse.error.message}({errorResponse.error.code})";
+            throw new HttpRequestException(errorString);
         }
     }
 }
