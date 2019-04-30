@@ -8,14 +8,14 @@
         <ToolbarItem Text="Cancel" Clicked="Cancel_Clicked">
             <ToolbarItem.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="UWP" Value="cancel.png"/>
+                    <On Platform="UWP" Value="baseline_cancel_black_48dp.png"/>
                 </OnPlatform>
             </ToolbarItem.Icon>
         </ToolbarItem>
         <ToolbarItem Text="Delete" Clicked="Delete_Clicked">
             <ToolbarItem.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="UWP" Value="save.png"/>
+                    <On Platform="UWP" Value="baseline_delete_black_48dp.png"/>
                 </OnPlatform>
             </ToolbarItem.Icon>
         </ToolbarItem>
