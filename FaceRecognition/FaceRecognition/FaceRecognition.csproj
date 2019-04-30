@@ -10,14 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="app.config" />
     <None Remove="baseline_photo.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="App.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -26,7 +19,6 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="PCLAppConfig" Version="0.3.4" />
     <PackageReference Include="Xamarin.Forms" Version="3.6.0.344457" />  
   </ItemGroup>
 

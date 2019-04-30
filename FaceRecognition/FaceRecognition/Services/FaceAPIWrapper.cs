@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using PCLAppConfig;
 using System.Threading.Tasks;
 using System.IO;
 using System.Net.Http;
@@ -14,7 +13,7 @@ namespace FaceRecognition.Services
     public class FaceAPIWrapper
     {
         // Use your own API key in the App.config file.
-        private string subscriptionKey = ConfigurationManager.AppSettings["APIKey"];
+        private string subscriptionKey = APIKeyProvider.APIKey;
 
         private const string uriBase =
             "https://northeurope.api.cognitive.microsoft.com/face/v1.0/";
