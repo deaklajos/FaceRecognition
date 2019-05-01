@@ -37,6 +37,12 @@ namespace FaceRecognition.Views
                 return;
             }
 
+            if (viewModel.Person.name.Length == 0)
+            {
+                await DisplayAlert("Invalid Name!", "Name can not be empty.", "OK");
+                return;
+            }
+
             try
             {
                 var imageStream = await viewModel.GetImageStreamAsync();
