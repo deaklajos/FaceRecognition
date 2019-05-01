@@ -5,12 +5,17 @@
               Title="{Binding Title}"
              x:Name="BrowseItemsPage">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Clicked="AddItem_Clicked">
+        <ToolbarItem Text="Add" Clicked="AddItem_Clicked" Order="Secondary">
             <ToolbarItem.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="UWP" Value="baseline_playlist_add_black_48dp.png"/>
                 </OnPlatform>
             </ToolbarItem.Icon>
+            <ToolbarItem.Order>
+                <OnPlatform x:TypeArguments="ToolbarItemOrder">
+                    <On Platform="Android" Value="Secondary"/>
+                </OnPlatform>
+            </ToolbarItem.Order>
         </ToolbarItem>
     </ContentPage.ToolbarItems>
 

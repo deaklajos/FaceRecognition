@@ -11,6 +11,11 @@
                     <On Platform="UWP" Value="baseline_cancel_black_48dp.png"/>
                 </OnPlatform>
             </ToolbarItem.Icon>
+            <ToolbarItem.Order>
+                <OnPlatform x:TypeArguments="ToolbarItemOrder">
+                    <On Platform="Android" Value="Secondary"/>
+                </OnPlatform>
+            </ToolbarItem.Order>
         </ToolbarItem>
         <ToolbarItem Text="Delete" Clicked="Delete_Clicked">
             <ToolbarItem.Icon>
@@ -18,6 +23,11 @@
                     <On Platform="UWP" Value="baseline_delete_black_48dp.png"/>
                 </OnPlatform>
             </ToolbarItem.Icon>
+            <ToolbarItem.Order>
+                <OnPlatform x:TypeArguments="ToolbarItemOrder">
+                    <On Platform="Android" Value="Secondary"/>
+                </OnPlatform>
+            </ToolbarItem.Order>
         </ToolbarItem>
     </ContentPage.ToolbarItems>
 
