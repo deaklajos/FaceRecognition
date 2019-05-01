@@ -62,11 +62,12 @@ namespace FaceRecognition.Services
 
         private async Task<PersonGroup> CreatePersonGroupAsync()
         {
-            var requestString = @"{
-    ""name"": ""default_group"",
-    ""userData"": ""Default group, every property is hard-coded."",
-    ""recognitionModel"": ""recognition_02""
-}";
+            var requestString = 
+                @"{
+                ""name"": ""default_group"",
+                ""userData"": ""Default group, every property is hard-coded."",
+                ""recognitionModel"": ""recognition_02""
+                }";
 
             var byteContent = Encoding.UTF8.GetBytes(requestString);
             using (ByteArrayContent content = new ByteArrayContent(byteContent))
@@ -160,6 +161,54 @@ namespace FaceRecognition.Services
             string contentString = await response.Content.ReadAsStringAsync();
             // TODO async
             return Newtonsoft.Json.JsonConvert.DeserializeObject<List<Person>>(contentString);
+        }
+
+        public async Task TrainPersonGroup()
+        {
+            var uri = uriBase + personGroupUri + "/" +
+                group.personGroupId + "/train";
+
+            HttpResponseMessage response;
+
+            byte[] byteData = Encoding.UTF8.GetBytes("");
+            using (ByteArrayContent content = new ByteArrayContent(byteData))
+            {
+                content.Headers.ContentType =
+                    new MediaTypeHeaderValue("application/json");
+
+                response = await client.PostAsync(uri, content);
+                await CheckResponseAsync(response);
+            }
+        }
+
+        public async Task<IList<IndentifyData>> IndentifyInPersonGroup(string[] faceIds)
+        {
+            var uri = uriBase + "identify";
+            var faceIdString = Newtonsoft.Json.JsonConvert.SerializeObject(faceIds);
+
+            var requestString =
+                $@"{{
+                ""personGroupId"": ""{group.personGroupId}"",
+                ""faceIds"": {faceIdString},
+                ""confidenceThreshold"": 0.5
+                }}";
+
+
+            HttpResponseMessage response;
+
+            byte[] byteData = Encoding.UTF8.GetBytes(requestString);
+            using (ByteArrayContent content = new ByteArrayContent(byteData))
+            {
+                content.Headers.ContentType =
+                    new MediaTypeHeaderValue("application/json");
+
+                response = await client.PostAsync(uri, content);
+                await CheckResponseAsync(response);
+            }
+
+            string contentString = await response.Content.ReadAsStringAsync();
+            // TODO async
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<IList<IndentifyData>>(contentString);
         }
 
         public async Task<IList<Face>> UploadAndDetectFaces(Stream imageStream)
