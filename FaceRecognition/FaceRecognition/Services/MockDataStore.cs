@@ -47,7 +47,16 @@ namespace FaceRecognition.Services
 
         public async Task<IEnumerable<Person>> GetItemsAsync(bool forceRefresh = false)
         {
+            var isRefreshRequired = false;
+            if (forceRefresh)
+                if (people != null)
+                    isRefreshRequired = true;
+
             await InitPeopleAsync();
+
+            if(isRefreshRequired)
+                people = await FaceAPIWrapper.ListAllPersonAsync();
+
             return await Task.FromResult(people);
         }
     }

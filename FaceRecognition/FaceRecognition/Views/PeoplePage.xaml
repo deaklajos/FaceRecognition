@@ -5,10 +5,34 @@
               Title="{Binding Title}"
              x:Name="BrowseItemsPage">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Clicked="AddItem_Clicked" Order="Secondary">
+        <ToolbarItem Text="Add" Clicked="AddItem_Clicked">
             <ToolbarItem.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="UWP" Value="baseline_playlist_add_black_48dp.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>
+            <ToolbarItem.Order>
+                <OnPlatform x:TypeArguments="ToolbarItemOrder">
+                    <On Platform="Android" Value="Secondary"/>
+                </OnPlatform>
+            </ToolbarItem.Order>
+        </ToolbarItem>
+        <ToolbarItem Text="Refresh" Command="{Binding LoadItemsCommand}">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="UWP" Value="baseline_refresh_black_48dp.png"/>
+                </OnPlatform>
+            </ToolbarItem.Icon>
+            <ToolbarItem.Order>
+                <OnPlatform x:TypeArguments="ToolbarItemOrder">
+                    <On Platform="Android" Value="Secondary"/>
+                </OnPlatform>
+            </ToolbarItem.Order>
+        </ToolbarItem>
+        <ToolbarItem Text="Train" Clicked="Train_Clicked">
+            <ToolbarItem.Icon>
+                <OnPlatform x:TypeArguments="FileImageSource">
+                    <On Platform="UWP" Value="baseline_build_black_48dp.png"/>
                 </OnPlatform>
             </ToolbarItem.Icon>
             <ToolbarItem.Order>

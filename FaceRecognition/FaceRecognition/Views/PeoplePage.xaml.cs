@@ -42,6 +42,11 @@ namespace FaceRecognition.Views
             await Navigation.PushAsync(new NewPersonPage(viewModel));
         }
 
+        async void Train_Clicked(object sender, EventArgs e)
+        {
+            
+        }
+
         protected override void OnAppearing()
         {
             base.OnAppearing();

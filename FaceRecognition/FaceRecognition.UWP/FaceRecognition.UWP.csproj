@@ -104,6 +104,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="baseline_build_black_48dp.png" />
     <Content Include="baseline_cancel_black_48dp.png" />
     <Content Include="baseline_delete_black_48dp.png" />
     <Content Include="baseline_playlist_add_black_48dp.png" />
