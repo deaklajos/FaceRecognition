@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using FaceRecognition.Models;
 using System.Web;
 using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace FaceRecognition.Services
 {
@@ -89,16 +90,15 @@ namespace FaceRecognition.Services
             }
         }
 
-        public async Task AddPersonAsync(string name, Stream image)
+        public async Task AddPersonAsync(Person person, Stream image)
         {
             await InitGroupAsync();
 
             var requestString =
                 $@"{{
-                ""name"": ""{name}""
+                ""name"": ""{person.name}""
                 }}";
 
-            Person newPerson;
             var byteContent = Encoding.UTF8.GetBytes(requestString);
             using (ByteArrayContent content = new ByteArrayContent(byteContent))
             {
@@ -114,7 +114,8 @@ namespace FaceRecognition.Services
                 string contentString = await response.Content.ReadAsStringAsync();
 
                 // TODO async
-                newPerson = Newtonsoft.Json.JsonConvert.DeserializeObject<Person>(contentString);
+                Person dummyPerson = Newtonsoft.Json.JsonConvert.DeserializeObject<Person>(contentString);
+                person.personId = dummyPerson.personId;
             }
 
             // Add face.
@@ -128,12 +129,18 @@ namespace FaceRecognition.Services
 
                 var uri = uriBase + personGroupUri + "/" +
                     group.personGroupId + "/" + personUri + "/" +
-                    newPerson.personId + "/persistedFaces";
+                    person.personId + "/persistedFaces";
 
                 var response = await client.PostAsync(uri, content);
                 if (!response.IsSuccessStatusCode)
-                    await DeletePersonAsync(newPerson);
+                    await DeletePersonAsync(person);
                 await CheckResponseAsync(response);
+
+                string contentString = await response.Content.ReadAsStringAsync();
+
+                JToken token = JObject.Parse(contentString);
+                string faceId = (string)token.SelectToken("persistedFaceId");
+                person.persistedFaceIds = new List<string>{ faceId };
             }
         }
 

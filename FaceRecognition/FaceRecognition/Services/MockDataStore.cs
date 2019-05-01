@@ -23,7 +23,7 @@ namespace FaceRecognition.Services
         public async Task<bool> AddItemAsync(Person person, Stream image)
         {
             await InitPeopleAsync();
-            await FaceAPIWrapper.AddPersonAsync(person.name, image);
+            await FaceAPIWrapper.AddPersonAsync(person, image);
             people.Add(person);
 
             return await Task.FromResult(true);
