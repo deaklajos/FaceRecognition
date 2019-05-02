@@ -35,6 +35,6 @@
         <Label Text="Name:" FontSize="Medium" />
         <Label Text="{Binding Person.name}" FontSize="Small"/>
         <Button Text="Recognize Me!" Clicked="Recognize_Clicked"/>
-        <Button Text="Recognize EveryBody!" Clicked="Recognize_Clicked"/>
+        <Button Text="Recognize EveryBody!" Clicked="RecognizeAll_Clicked"/>
     </StackLayout>
 </ContentPage>

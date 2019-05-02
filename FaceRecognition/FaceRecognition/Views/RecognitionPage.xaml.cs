@@ -1,4 +1,5 @@
-﻿using FaceRecognition.ViewModels;
+﻿using FaceRecognition.Models;
+using FaceRecognition.ViewModels;
 using System;
 
 using Xamarin.Forms;
@@ -11,17 +12,19 @@ namespace FaceRecognition.Views
     {
         ImageViewModel viewModel;
 
-        public RecognitionPage(ImageViewModel viewModel)
+        public RecognitionPage(ImageViewModel viewModel, Person person = null)
         {
             InitializeComponent();
 
+            viewModel.Person = person;
             BindingContext = this.viewModel = viewModel;
         }
 
-        public RecognitionPage()
+        public RecognitionPage(Person person = null)
         {
             InitializeComponent();
 
+            viewModel.Person = person;
             viewModel = new ImageViewModel();
             BindingContext = viewModel;
         }
