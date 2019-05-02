@@ -17,6 +17,7 @@ namespace FaceRecognition.ViewModels
         public ObservableCollection<Person> People { get; set; }
         public Command LoadItemsCommand { get; set; }
         public MockDataStore DataStore = new MockDataStore();
+        public FaceAPIWrapper FaceAPIWrapper = new FaceAPIWrapper();
 
         public PeopleViewModel()
         {

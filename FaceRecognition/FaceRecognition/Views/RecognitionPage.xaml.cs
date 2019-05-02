@@ -10,23 +10,25 @@ namespace FaceRecognition.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RecognitionPage : ContentPage
     {
-        ImageViewModel viewModel;
+        RecognitionViewModel viewModel;
 
-        public RecognitionPage(ImageViewModel viewModel, Person person = null)
+        public RecognitionPage(RecognitionViewModel viewModel, Person person = null)
         {
             InitializeComponent();
 
             viewModel.Person = person;
             BindingContext = this.viewModel = viewModel;
+            this.viewModel.Person = person;
         }
 
         public RecognitionPage(Person person = null)
         {
             InitializeComponent();
 
-            viewModel.Person = person;
-            viewModel = new ImageViewModel();
+            
+            viewModel = new RecognitionViewModel();
             BindingContext = viewModel;
+            viewModel.Person = person;
         }
 
         async void Camera_Clicked(object sender, EventArgs e)
@@ -47,16 +49,16 @@ namespace FaceRecognition.Views
                 return;
             }
 
-            //try
-            //{
-            //    var image = await viewModel.GetImageStreamAsync();
-            //    var asd = await viewModel.FaceAPIWrapper.UploadAndDetectFaces(image);
-            //    await DisplayAlert("Done!", "Found faces: " + asd.Count, "OK");
-            //}
-            //catch (Exception ex)
-            //{
-            //    await DisplayAlert("Error!", ex.Message, "OK");
-            //}
+            try
+            {
+                var image = await viewModel.GetImageStreamAsync();
+                var data = await viewModel.IndentifyAsync();
+                await DisplayAlert("Done!", "Found faces: " + data.Count, "OK");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error!", ex.Message, "OK");
+            }
         }
     }
 }

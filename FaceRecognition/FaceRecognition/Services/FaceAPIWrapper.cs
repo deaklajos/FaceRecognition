@@ -24,6 +24,8 @@ namespace FaceRecognition.Services
         private const string personUri = "persons";
 
         private HttpClient client = new HttpClient();
+
+        // TODO Static?
         private PersonGroup group = null;
 
         private async Task InitGroupAsync()
@@ -63,12 +65,20 @@ namespace FaceRecognition.Services
 
         private async Task<PersonGroup> CreatePersonGroupAsync()
         {
-            var requestString = 
-                @"{
-                ""name"": ""default_group"",
-                ""userData"": ""Default group, every property is hard-coded."",
-                ""recognitionModel"": ""recognition_02""
-                }";
+            PersonGroup personGroup = new PersonGroup
+            {
+                personGroupId = "default_id",
+                name = "default_group",
+                userData = "Default group, every property is hard-coded.",
+                recognitionModel = "recognition_02"
+            };
+
+            var requestString =
+                $@"{{
+                ""name"": ""{personGroup.name}"",
+                ""userData"": ""{personGroup.userData}"",
+                ""recognitionModel"": ""{personGroup.recognitionModel}""
+                }}";
 
             var byteContent = Encoding.UTF8.GetBytes(requestString);
             using (ByteArrayContent content = new ByteArrayContent(byteContent))
@@ -76,17 +86,10 @@ namespace FaceRecognition.Services
                 content.Headers.ContentType =
                     new MediaTypeHeaderValue("application/json");
 
-                var response = await client.PutAsync(uriBase + personGroupUri + "/default_id", content);
+                var response = await client.PutAsync(uriBase + personGroupUri + $"/{personGroup.personGroupId}", content);
                 await CheckResponseAsync(response);
 
-                string contentString = await response.Content.ReadAsStringAsync();
-                return new PersonGroup
-                {
-                    personGroupId = "defaultId",
-                    name = "default_group",
-                    userData = "",
-                    recognitionModel = "recognition_02"
-                };
+                return personGroup;
             }
         }
 
@@ -172,6 +175,8 @@ namespace FaceRecognition.Services
 
         public async Task TrainPersonGroup()
         {
+            await InitGroupAsync();
+
             var uri = uriBase + personGroupUri + "/" +
                 group.personGroupId + "/train";
 
@@ -188,8 +193,10 @@ namespace FaceRecognition.Services
             }
         }
 
-        public async Task<IList<IndentifyData>> IndentifyInPersonGroup(string[] faceIds)
+        public async Task<IList<IndentifyData>> IndentifyInPersonGroup(IList<string> faceIds)
         {
+            await InitGroupAsync();
+
             var uri = uriBase + "identify";
             var faceIdString = Newtonsoft.Json.JsonConvert.SerializeObject(faceIds);
 
@@ -220,8 +227,11 @@ namespace FaceRecognition.Services
 
         public async Task<IList<Face>> UploadAndDetectFaces(Stream imageStream)
         {
-            string requestParameters = "returnFaceId=true&returnFaceLandmarks=false" +
-                "&returnFaceAttributes=age,gender";
+            string requestParameters = 
+                "returnFaceId=true&returnFaceLandmarks=false" +
+                "&returnFaceAttributes=age,gender" +
+                "&recognitionModel=recognition_02" +
+                "&returnRecognitionModel=true";
 
             string uri = uriBase + detectUri + "?" + requestParameters;
 

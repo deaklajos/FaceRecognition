@@ -44,7 +44,14 @@ namespace FaceRecognition.Views
 
         async void Train_Clicked(object sender, EventArgs e)
         {
-            
+            try
+            {
+                await viewModel.FaceAPIWrapper.TrainPersonGroup();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error!", ex.Message, "OK");
+            }
         }
 
         protected override void OnAppearing()
