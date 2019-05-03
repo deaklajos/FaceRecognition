@@ -20,7 +20,7 @@ namespace FaceRecognition.Views
         {
             InitializeComponent();
 
-            string resourceID = "FaceRecognition.baseline_photo.png";
+            string resourceID = "FaceRecognition.placeholder_image.png";
             Assembly assembly = GetType().GetTypeInfo().Assembly;
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceID))
@@ -37,7 +37,7 @@ namespace FaceRecognition.Views
         {
             InitializeComponent();
 
-            string resourceID = "FaceRecognition.baseline_photo.png";
+            string resourceID = "FaceRecognition.placeholder_image.png";
             Assembly assembly = GetType().GetTypeInfo().Assembly;
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceID))
