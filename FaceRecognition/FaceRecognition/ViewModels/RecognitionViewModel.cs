@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 using Xamarin.Forms;
+using System.Net.Http;
 
 namespace FaceRecognition.ViewModels
 {
@@ -22,6 +23,8 @@ namespace FaceRecognition.ViewModels
         {
             var imageStream = await GetImageStreamAsync();
             var faceList = await FaceAPIWrapper.UploadAndDetectFaces(imageStream);
+            if(faceList.Count == 0) throw new HttpRequestException("No face detected.");
+
             var faceIds = new List<string>();
             foreach (var item in faceList)
                 faceIds.Add(item.faceId);
@@ -30,14 +33,17 @@ namespace FaceRecognition.ViewModels
 
             var personList = await FaceAPIWrapper.ListAllPersonAsync();
 
+            // Left outer join
             var rectangleData = from face in faceList
                         join indentifyData in IndentifyDataList
                         on face.faceId equals indentifyData.faceId
                         join person in personList
-                        on indentifyData.candidates.FirstOrDefault().personId equals person.personId
+                        on indentifyData.candidates.FirstOrDefault().personId equals person.personId 
+                        into result
+                        from person in result.DefaultIfEmpty()
                         select new RectangleData
                         {
-                            Name = person.name,
+                            Name = person == null ? "Unknown" : person.name,
                             Faceattributes = face.faceAttributes,
                             Facerectangle = face.faceRectangle
                         };
