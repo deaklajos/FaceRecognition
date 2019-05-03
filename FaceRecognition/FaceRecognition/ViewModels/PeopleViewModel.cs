@@ -56,6 +56,7 @@ namespace FaceRecognition.ViewModels
             }
             catch (Exception ex)
             {
+                // TODO display erros.
                 Debug.WriteLine(ex);
             }
             finally
