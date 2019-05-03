@@ -1,14 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              x:Class="FaceRecognition.Views.RecognitionPage"
              Title="{Binding Title}">
 
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
-            <Image Source="{Binding Image}"
-                   VerticalOptions="Center" 
-                   HeightRequest="128"/>
+            <skia:SKCanvasView x:Name="canvasView" 
+                               Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                               PaintSurface="OnCanvasViewPaintSurface" 
+                               HorizontalOptions="FillAndExpand"
+                               VerticalOptions="FillAndExpand"/>
             <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
                 <Button Text="Use Camera" Clicked="Camera_Clicked"/>
                 <Button Text="Pick Image" Clicked="Pick_Clicked"/>

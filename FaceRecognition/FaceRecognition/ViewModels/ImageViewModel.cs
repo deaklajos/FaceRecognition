@@ -16,19 +16,6 @@ namespace FaceRecognition.ViewModels
         public FaceAPIWrapper FaceAPIWrapper { get; } = new FaceAPIWrapper();
         private Stream imageStream;
         public bool IsImageSet { get; private set; } = false;
-        private ImageSource image = ImageSource.FromResource("FaceRecognition.baseline_photo.png");
-        public ImageSource Image
-        {
-            get { return image; }
-            private set
-            {
-                if (value != null)
-                {
-                    SetProperty(ref image, value);
-                    IsImageSet = true;
-                }
-            }
-        }
 
         public ImageViewModel(Person item = null)
         {
@@ -72,7 +59,7 @@ namespace FaceRecognition.ViewModels
         {
             imageStream = stream;
             var tmpStream = await GetImageStreamAsync();
-            Image = ImageSource.FromStream(() => { return tmpStream; });
+            IsImageSet = true;
         }
 
     }
