@@ -38,7 +38,7 @@ namespace FaceRecognition.ViewModels
                         join indentifyData in IndentifyDataList
                         on face.faceId equals indentifyData.faceId
                         join person in personList
-                        on indentifyData.candidates.FirstOrDefault().personId equals person.personId 
+                        on indentifyData.candidates.FirstOrDefault()?.personId equals person.personId 
                         into result
                         from person in result.DefaultIfEmpty()
                         select new RectangleData
