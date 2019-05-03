@@ -98,6 +98,7 @@ namespace FaceRecognition.Views
         async void Camera_Clicked(object sender, EventArgs e)
         {
             await viewModel.TakePhotoAsync(this);
+            if (!viewModel.IsImageSet) return;
 
             var imageStream = await viewModel.GetImageStreamAsync();
             bitmap = SKBitmap.Decode(imageStream);
@@ -107,6 +108,8 @@ namespace FaceRecognition.Views
         async void Pick_Clicked(object sender, EventArgs e)
         {
             await viewModel.PickImageAsync(this);
+            if (!viewModel.IsImageSet) return;
+
             var imageStream = await viewModel.GetImageStreamAsync();
             bitmap = SKBitmap.Decode(imageStream);
             canvasView.InvalidateSurface();

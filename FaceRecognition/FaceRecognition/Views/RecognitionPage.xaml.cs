@@ -3,6 +3,7 @@ using FaceRecognition.ViewModels;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Xamarin.Forms;
@@ -15,6 +16,7 @@ namespace FaceRecognition.Views
     {
         RecognitionViewModel viewModel;
         SKBitmap bitmap;
+        IEnumerable<RectangleData> RectangleDatas = new List<RectangleData>();
 
         public RecognitionPage(RecognitionViewModel viewModel, Person person = null)
         {
@@ -66,29 +68,56 @@ namespace FaceRecognition.Views
                                                y + scale * bitmap.Height);
 
             canvas.DrawBitmap(bitmap, destRect);
+
+            SKPaint paint = new SKPaint
+            {
+                Style = SKPaintStyle.Stroke,
+                Color = Color.Red.ToSKColor(),
+                StrokeWidth = 1
+            };
+
+            foreach (var item in RectangleDatas)
+            {
+                float rect_x = ((float)item.Facerectangle.left / bitmap.Width) * destRect.Width + destRect.Left;
+                float rect_y = ((float)item.Facerectangle.top / bitmap.Height) * destRect.Height + destRect.Top;
+                float rect_w = ((float)item.Facerectangle.width / bitmap.Width) * destRect.Width;
+                float rect_h = ((float)item.Facerectangle.height / bitmap.Height) * destRect.Height;
+
+                canvas.DrawRect(rect_x, rect_y, rect_w, rect_h, paint);
+
+                var stringToDraw = $"{item.Name}, {item.Faceattributes.age}, {item.Faceattributes.gender}";
+                canvas.DrawText(stringToDraw, rect_x - 20, rect_y - 20, paint);
+            }
         }
 
         async void Camera_Clicked(object sender, EventArgs e)
         {
             await viewModel.TakePhotoAsync(this);
+            if (!viewModel.IsImageSet) return;
 
+            // TODO check if changed, not set.
             var imageStream = await viewModel.GetImageStreamAsync();
             bitmap = SKBitmap.Decode(imageStream);
+            RectangleDatas = new List<RectangleData>();
+
             canvasView.InvalidateSurface();
         }
 
         async void Pick_Clicked(object sender, EventArgs e)
         {
             await viewModel.PickImageAsync(this);
+            if (!viewModel.IsImageSet) return;
 
             var imageStream = await viewModel.GetImageStreamAsync();
             bitmap = SKBitmap.Decode(imageStream);
+            RectangleDatas = new List<RectangleData>();
+
             canvasView.InvalidateSurface();
         }
 
         async void Recognize_Clicked(object sender, EventArgs e)
         {
-            if(!viewModel.IsImageSet)
+            if (!viewModel.IsImageSet)
             {
                 await DisplayAlert("Add an image!", "Before recognition you must add an image.", "OK");
                 return;
@@ -97,8 +126,8 @@ namespace FaceRecognition.Views
             try
             {
                 var image = await viewModel.GetImageStreamAsync();
-                var data = await viewModel.IndentifyAsync();
-                await DisplayAlert("Done!", "Found faces: " + data.Count, "OK");
+                RectangleDatas = await viewModel.IndentifyAsync();
+                canvasView.InvalidateSurface();
             }
             catch (Exception ex)
             {
