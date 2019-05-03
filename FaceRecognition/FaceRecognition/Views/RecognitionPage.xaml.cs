@@ -73,6 +73,7 @@ namespace FaceRecognition.Views
             {
                 Style = SKPaintStyle.Stroke,
                 Color = Color.Red.ToSKColor(),
+                IsAntialias = true,
                 StrokeWidth = 2
             };
 
@@ -80,8 +81,9 @@ namespace FaceRecognition.Views
             {
                 Style = SKPaintStyle.StrokeAndFill,
                 Color = Color.Red.ToSKColor(),
+                IsAntialias = true,
                 StrokeWidth = 1,
-                TextSize = ((float)20 / bitmap.Width) * destRect.Width
+                TextSize = 30
             };
 
             foreach (var item in RectangleDatas)
