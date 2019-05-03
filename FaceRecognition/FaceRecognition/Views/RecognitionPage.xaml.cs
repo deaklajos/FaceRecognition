@@ -73,7 +73,15 @@ namespace FaceRecognition.Views
             {
                 Style = SKPaintStyle.Stroke,
                 Color = Color.Red.ToSKColor(),
-                StrokeWidth = 1
+                StrokeWidth = 2
+            };
+
+            SKPaint paintText = new SKPaint
+            {
+                Style = SKPaintStyle.StrokeAndFill,
+                Color = Color.Red.ToSKColor(),
+                StrokeWidth = 1,
+                TextSize = ((float)20 / bitmap.Width) * destRect.Width
             };
 
             foreach (var item in RectangleDatas)
@@ -86,7 +94,7 @@ namespace FaceRecognition.Views
                 canvas.DrawRect(rect_x, rect_y, rect_w, rect_h, paint);
 
                 var stringToDraw = $"{item.Name}, {item.Faceattributes.age}, {item.Faceattributes.gender}";
-                canvas.DrawText(stringToDraw, rect_x - 20, rect_y - 20, paint);
+                canvas.DrawText(stringToDraw, rect_x - 20, rect_y - 20, paintText);
             }
         }
 
