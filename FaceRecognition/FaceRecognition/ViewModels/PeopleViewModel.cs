@@ -56,7 +56,8 @@ namespace FaceRecognition.ViewModels
             }
             catch (Exception ex)
             {
-                MessagingCenter.Send(this, "LoadException", ex.Message);
+                MessagingCenter.Send(this, "LoadException",
+                    $"Load failed, check your internet connection.\nDetails:\n{ex.Message}");
             }
             finally
             {
