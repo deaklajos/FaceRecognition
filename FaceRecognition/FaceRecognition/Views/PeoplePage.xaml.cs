@@ -23,6 +23,11 @@ namespace FaceRecognition.Views
             InitializeComponent();
 
             BindingContext = viewModel = new PeopleViewModel();
+
+            MessagingCenter.Subscribe<PeopleViewModel, string>(this, "LoadException", async (obj, message) =>
+            {
+                await DisplayAlert("Error!", message, "OK");
+            });
         }
 
         async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
