@@ -16,6 +16,7 @@ namespace FaceRecognition.ViewModels
         public FaceAPIWrapper FaceAPIWrapper { get; } = new FaceAPIWrapper();
         private Stream imageStream;
         public bool IsImageSet { get; private set; } = false;
+        public bool IsImageSetCompleted { get; private set; } = false;
 
         public ImageViewModel(Person item = null)
         {
@@ -25,19 +26,23 @@ namespace FaceRecognition.ViewModels
 
         public async Task PickImageAsync(Page page)
         {
+            IsImageSetCompleted = false;
             var image = await ImageProvider.PickImageAsync(page);
             if (image != null)
             {
                 await SetImageStreamAsync(image);
+                IsImageSetCompleted = true;
             }
         }
 
         public async Task TakePhotoAsync(Page page)
         {
+            IsImageSetCompleted = false;
             var image = await ImageProvider.TakePhotoAsync(page);
             if (image != null)
             {
                 await SetImageStreamAsync(image);
+                IsImageSetCompleted = true;
             }
         }
 

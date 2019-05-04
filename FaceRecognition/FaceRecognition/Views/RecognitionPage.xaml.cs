@@ -103,7 +103,7 @@ namespace FaceRecognition.Views
         async void Camera_Clicked(object sender, EventArgs e)
         {
             await viewModel.TakePhotoAsync(this);
-            if (!viewModel.IsImageSet) return;
+            if (!viewModel.IsImageSetCompleted) return;
 
             // TODO check if changed, not set.
             var imageStream = await viewModel.GetImageStreamAsync();
@@ -116,7 +116,7 @@ namespace FaceRecognition.Views
         async void Pick_Clicked(object sender, EventArgs e)
         {
             await viewModel.PickImageAsync(this);
-            if (!viewModel.IsImageSet) return;
+            if (!viewModel.IsImageSetCompleted) return;
 
             var imageStream = await viewModel.GetImageStreamAsync();
             bitmap = SKBitmap.Decode(imageStream);
