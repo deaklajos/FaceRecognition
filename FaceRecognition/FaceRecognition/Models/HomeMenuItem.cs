@@ -7,6 +7,7 @@ namespace FaceRecognition.Models
     public enum MenuItemType
     {
         Browse,
+        Recognition,
         About
     }
     public class HomeMenuItem

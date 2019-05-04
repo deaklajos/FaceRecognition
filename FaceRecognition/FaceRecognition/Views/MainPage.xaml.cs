@@ -29,6 +29,9 @@ namespace FaceRecognition.Views
                     case (int)MenuItemType.Browse:
                         MenuPages.Add(id, new NavigationPage(new PeoplePage()));
                         break;
+                    case (int)MenuItemType.Recognition:
+                        MenuPages.Add(id, new NavigationPage(new RecognitionPage()));
+                        break;
                     case (int)MenuItemType.About:
                         MenuPages.Add(id, new NavigationPage(new AboutPage()));
                         break;

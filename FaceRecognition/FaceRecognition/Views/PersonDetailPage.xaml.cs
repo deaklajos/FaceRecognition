@@ -41,15 +41,5 @@ namespace FaceRecognition.Views
         {
             await Navigation.PopAsync();
         }
-
-        async void Recognize_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new RecognitionPage(viewModel.Person));
-        }
-
-        async void RecognizeAll_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new RecognitionPage());
-        }
     }
 }
