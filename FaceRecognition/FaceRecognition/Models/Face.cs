@@ -1,7 +1,9 @@
 ﻿
 namespace FaceRecognition.Models
 {
-    // Generated classes.
+    /// <summary>
+    /// Face API generated class for receiving faces.
+    /// </summary>
     public class Face
     {
         public string faceId { get; set; }
@@ -11,6 +13,9 @@ namespace FaceRecognition.Models
         public Faceattributes faceAttributes { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Facerectangle
     {
         public int width { get; set; }
@@ -19,6 +24,9 @@ namespace FaceRecognition.Models
         public int top { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Facelandmarks
     {
         public Pupilleft pupilLeft { get; set; }
@@ -50,168 +58,252 @@ namespace FaceRecognition.Models
         public Underlipbottom underLipBottom { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Pupilleft
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Pupilright
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Nosetip
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Mouthleft
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Mouthright
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Eyebrowleftouter
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Eyebrowleftinner
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Eyeleftouter
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Eyelefttop
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Eyeleftbottom
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Eyeleftinner
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Eyebrowrightinner
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Eyebrowrightouter
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Eyerightinner
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Eyerighttop
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Eyerightbottom
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Eyerightouter
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Noserootleft
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Noserootright
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Noseleftalartop
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Noserightalartop
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Noseleftalarouttip
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Noserightalarouttip
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Upperliptop
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Upperlipbottom
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Underliptop
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Underlipbottom
     {
         public float x { get; set; }
         public float y { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Faceattributes
     {
         public float age { get; set; }
@@ -230,6 +322,9 @@ namespace FaceRecognition.Models
         public Noise noise { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Facialhair
     {
         public float moustache { get; set; }
@@ -237,6 +332,9 @@ namespace FaceRecognition.Models
         public float sideburns { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Headpose
     {
         public float roll { get; set; }
@@ -244,6 +342,9 @@ namespace FaceRecognition.Models
         public float pitch { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Emotion
     {
         public float anger { get; set; }
@@ -256,6 +357,9 @@ namespace FaceRecognition.Models
         public float surprise { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Hair
     {
         public float bald { get; set; }
@@ -263,18 +367,27 @@ namespace FaceRecognition.Models
         public Haircolor[] hairColor { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Haircolor
     {
         public string color { get; set; }
         public float confidence { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Makeup
     {
         public bool eyeMakeup { get; set; }
         public bool lipMakeup { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Occlusion
     {
         public bool foreheadOccluded { get; set; }
@@ -282,24 +395,36 @@ namespace FaceRecognition.Models
         public bool mouthOccluded { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Blur
     {
         public string blurLevel { get; set; }
         public float value { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Exposure
     {
         public string exposureLevel { get; set; }
         public float value { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Noise
     {
         public string noiseLevel { get; set; }
         public float value { get; set; }
     }
 
+    /// <summary>
+    /// Face API generated class.
+    /// </summary>
     public class Accessory
     {
         public string type { get; set; }
