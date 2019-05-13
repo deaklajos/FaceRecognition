@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace FaceRecognition.Services
 {
-    public class MockDataStore
+    public class DataStore
     {
         private IList<Person> people;
         private FaceAPIWrapper FaceAPIWrapper = new FaceAPIWrapper();
