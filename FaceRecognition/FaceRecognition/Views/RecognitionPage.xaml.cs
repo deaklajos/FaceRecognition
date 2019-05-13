@@ -140,7 +140,7 @@ namespace FaceRecognition.Views
                 using (UserDialogs.Instance.Loading("Processing", null, null, true, MaskType.Black))
                 {
                     var image = await viewModel.GetImageStreamAsync();
-                    RectangleDatas = await viewModel.IndentifyAsync();
+                    RectangleDatas = await viewModel.IdentifyAsync();
                     canvasView.InvalidateSurface();
                 } 
             }

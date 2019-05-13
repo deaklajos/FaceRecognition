@@ -5,9 +5,9 @@ using System.Text;
 namespace FaceRecognition.Models
 {
     /// <summary>
-    /// Face API generated class for receiving Indentification data.
+    /// Face API generated class for receiving Identification data.
     /// </summary>
-    public class IndentifyData
+    public class IdentifyData
     {
         /// <summary>
         /// Id of the face stored on the server.
@@ -16,7 +16,7 @@ namespace FaceRecognition.Models
         public Candidate[] candidates { get; set; }
 
         /// <summary>
-        /// Face API generated class for receiving Indentification candidates.
+        /// Face API generated class for receiving Identification candidates.
         /// </summary>
         public class Candidate
         {

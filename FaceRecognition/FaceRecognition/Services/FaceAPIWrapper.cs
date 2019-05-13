@@ -193,7 +193,7 @@ namespace FaceRecognition.Services
             }
         }
 
-        public async Task<IList<IndentifyData>> IndentifyInPersonGroup(IList<string> faceIds)
+        public async Task<IList<IdentifyData>> IdentifyInPersonGroup(IList<string> faceIds)
         {
             await InitGroupAsync();
 
@@ -222,7 +222,7 @@ namespace FaceRecognition.Services
 
             string contentString = await response.Content.ReadAsStringAsync();
             // TODO async
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<IList<IndentifyData>>(contentString);
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<IList<IdentifyData>>(contentString);
         }
 
         public async Task<IList<Face>> UploadAndDetectFaces(Stream imageStream)

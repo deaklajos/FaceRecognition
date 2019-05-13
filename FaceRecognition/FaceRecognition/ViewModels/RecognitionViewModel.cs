@@ -19,7 +19,7 @@ namespace FaceRecognition.ViewModels
             Title = "Recognition";
         }
 
-        public async Task<IEnumerable<RectangleData>> IndentifyAsync()
+        public async Task<IEnumerable<RectangleData>> IdentifyAsync()
         {
             var imageStream = await GetImageStreamAsync();
             var faceList = await FaceAPIWrapper.UploadAndDetectFaces(imageStream);
@@ -29,16 +29,16 @@ namespace FaceRecognition.ViewModels
             foreach (var item in faceList)
                 faceIds.Add(item.faceId);
 
-            var IndentifyDataList = await FaceAPIWrapper.IndentifyInPersonGroup(faceIds);
+            var IdentifyDataList = await FaceAPIWrapper.IdentifyInPersonGroup(faceIds);
 
             var personList = await FaceAPIWrapper.ListAllPersonAsync();
 
             // Left outer join
             var rectangleData = from face in faceList
-                        join indentifyData in IndentifyDataList
-                        on face.faceId equals indentifyData.faceId
+                        join identifyData in IdentifyDataList
+                        on face.faceId equals identifyData.faceId
                         join person in personList
-                        on indentifyData.candidates.FirstOrDefault()?.personId equals person.personId 
+                        on identifyData.candidates.FirstOrDefault()?.personId equals person.personId 
                         into result
                         from person in result.DefaultIfEmpty()
                         select new RectangleData
