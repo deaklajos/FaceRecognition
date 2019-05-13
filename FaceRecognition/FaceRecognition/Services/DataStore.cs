@@ -24,7 +24,7 @@ namespace FaceRecognition.Services
         /// Adds a person to the stored list and to the server.
         /// </summary>
         /// <param name="person">The person to be added.</param>
-        /// <param name="image">Image of the person</param>
+        /// <param name="image">Image of the person.</param>
         /// <returns>Returns true.</returns>
         public async Task<bool> AddItemAsync(Person person, Stream image)
         {

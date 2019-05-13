@@ -12,15 +12,26 @@ using System.Net.Http;
 
 namespace FaceRecognition.ViewModels
 {
+    /// <summary>
+    /// ViewModel for RecognitionPage.
+    /// </summary>
     public class RecognitionViewModel : ImageViewModel
     {
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public RecognitionViewModel()
         {
             Title = "Recognition";
         }
 
+        /// <summary>
+        /// Identifies the people on the Page's image.
+        /// </summary>
+        /// <returns>A list for diplayig the results.</returns>
         public async Task<IEnumerable<RectangleData>> IdentifyAsync()
         {
+            // Detect faces
             var imageStream = await GetImageStreamAsync();
             var faceList = await FaceAPIWrapper.UploadAndDetectFaces(imageStream);
             if(faceList.Count == 0) throw new HttpRequestException("No face detected.");
@@ -29,10 +40,12 @@ namespace FaceRecognition.ViewModels
             foreach (var item in faceList)
                 faceIds.Add(item.faceId);
 
+            // Identify
             var IdentifyDataList = await FaceAPIWrapper.IdentifyInPersonGroup(faceIds);
 
             var personList = await FaceAPIWrapper.ListAllPersonAsync();
 
+            // Matching the faces with the people.
             // Left outer join
             var rectangleData = from face in faceList
                         join identifyData in IdentifyDataList

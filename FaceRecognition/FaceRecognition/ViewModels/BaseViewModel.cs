@@ -20,6 +20,10 @@ namespace FaceRecognition.ViewModels
         }
 
         string title = string.Empty;
+
+        /// <summary>
+        /// Title displayed on the top of the window.
+        /// </summary>
         public string Title
         {
             get { return title; }
