@@ -2,8 +2,6 @@
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-
-using FaceRecognition.Models;
 using FaceRecognition.ViewModels;
 
 namespace FaceRecognition.Views

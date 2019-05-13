@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-using Xamarin.Forms;
-
-using FaceRecognition.Models;
-using FaceRecognition.Services;
-
 namespace FaceRecognition.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged

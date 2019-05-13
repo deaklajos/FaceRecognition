@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 using FaceRecognition.Models;
 
 namespace FaceRecognition.ViewModels

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FaceRecognition.Models
+﻿namespace FaceRecognition.Models
 {
     /// <summary>
     /// This class is used for displayig the results of the identification.

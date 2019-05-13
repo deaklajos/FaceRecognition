@@ -1,9 +1,6 @@
 ﻿using FaceRecognition.Models;
 using FaceRecognition.Services;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -7,7 +6,6 @@ using Xamarin.Forms.Xaml;
 using FaceRecognition.Models;
 using FaceRecognition.ViewModels;
 using SkiaSharp;
-using System.Threading.Tasks;
 using SkiaSharp.Views.Forms;
 using System.Reflection;
 using System.IO;

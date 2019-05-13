@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using FaceRecognition.Models;
-using System.Web;
 using System.Text;
 using Newtonsoft.Json.Linq;
 

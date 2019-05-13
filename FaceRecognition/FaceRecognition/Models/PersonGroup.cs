@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FaceRecognition.Models
+﻿namespace FaceRecognition.Models
 {
     /// <summary>
     /// Face API generated class for representing a group of people.

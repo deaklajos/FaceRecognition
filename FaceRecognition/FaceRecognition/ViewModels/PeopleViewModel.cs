@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
 using FaceRecognition.Models;
-using FaceRecognition.Views;
 using FaceRecognition.Services;
 using System.IO;
 

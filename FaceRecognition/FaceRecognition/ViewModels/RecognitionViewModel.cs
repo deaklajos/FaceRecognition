@@ -1,13 +1,8 @@
 ﻿using FaceRecognition.Models;
 using FaceRecognition.Services;
-using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
-using System.Windows.Input;
-
-using Xamarin.Forms;
 using System.Net.Http;
 
 namespace FaceRecognition.ViewModels

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FaceRecognition.Models
+﻿namespace FaceRecognition.Models
 {
     /// <summary>
     /// Face API generated class for receiving Identification data.
