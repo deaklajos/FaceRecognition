@@ -7,11 +7,18 @@ using Xamarin.Forms.Xaml;
 
 namespace FaceRecognition.Views
 {
+    /// <summary>
+    /// MenuPage class.
+    /// </summary>
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MenuPage : ContentPage
     {
         MainPage RootPage { get => Application.Current.MainPage as MainPage; }
         List<HomeMenuItem> menuItems;
+
+        /// <summary>
+        /// Constructor, creates the menu.
+        /// </summary>
         public MenuPage()
         {
             InitializeComponent();

@@ -15,6 +15,9 @@ using Acr.UserDialogs;
 
 namespace FaceRecognition.Views
 {
+    /// <summary>
+    /// Page for registering a new person into the application.
+    /// </summary>
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NewPersonPage : ContentPage
     {
@@ -23,6 +26,10 @@ namespace FaceRecognition.Views
 
         SKBitmap bitmap;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="peopleViewModel">PeopleViewModel for adding the person.</param>
         public NewPersonPage(PeopleViewModel peopleViewModel)
         {
             InitializeComponent();
@@ -45,6 +52,7 @@ namespace FaceRecognition.Views
             PeopleViewModel = peopleViewModel;
         }
 
+        // Draws the image.
         void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
         {
             SKImageInfo info = args.Info;
@@ -79,6 +87,7 @@ namespace FaceRecognition.Views
 
             try
             {
+                // Processing dialog.
                 using (UserDialogs.Instance.Loading("Processing", null, null, true, MaskType.Black))
                 {
                     var imageStream = await viewModel.GetImageStreamAsync();

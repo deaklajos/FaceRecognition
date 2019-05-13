@@ -13,6 +13,9 @@ using Xamarin.Forms.Xaml;
 
 namespace FaceRecognition.Views
 {
+    /// <summary>
+    /// Page for recognition and identification of people.
+    /// </summary>
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RecognitionPage : ContentPage
     {
@@ -20,7 +23,11 @@ namespace FaceRecognition.Views
         SKBitmap bitmap;
         IEnumerable<RectangleData> RectangleDatas = new List<RectangleData>();
 
-        public RecognitionPage(RecognitionViewModel viewModel, Person person = null)
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="viewModel">ViewModel for the page.</param>
+        public RecognitionPage(RecognitionViewModel viewModel)
         {
             InitializeComponent();
 
@@ -32,12 +39,13 @@ namespace FaceRecognition.Views
                 bitmap = SKBitmap.Decode(stream);
             }
 
-            viewModel.Person = person;
             BindingContext = this.viewModel = viewModel;
-            this.viewModel.Person = person;
         }
 
-        public RecognitionPage(Person person = null)
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public RecognitionPage()
         {
             InitializeComponent();
 
@@ -51,9 +59,9 @@ namespace FaceRecognition.Views
 
             viewModel = new RecognitionViewModel();
             BindingContext = viewModel;
-            viewModel.Person = person;
         }
 
+        // Drawing
         void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs args)
         {
             SKImageInfo info = args.Info;
@@ -69,6 +77,7 @@ namespace FaceRecognition.Views
             SKRect destRect = new SKRect(x, y, x + scale * bitmap.Width,
                                                y + scale * bitmap.Height);
 
+            // Draw the image
             canvas.DrawBitmap(bitmap, destRect);
 
             SKPaint paint = new SKPaint
@@ -88,6 +97,7 @@ namespace FaceRecognition.Views
                 TextSize = 30
             };
 
+            // Draw the faces
             foreach (var item in RectangleDatas)
             {
                 float rect_x = ((float)item.Facerectangle.left / bitmap.Width) * destRect.Width + destRect.Left;
@@ -95,8 +105,10 @@ namespace FaceRecognition.Views
                 float rect_w = ((float)item.Facerectangle.width / bitmap.Width) * destRect.Width;
                 float rect_h = ((float)item.Facerectangle.height / bitmap.Height) * destRect.Height;
 
+                // Face rectangle
                 canvas.DrawRect(rect_x, rect_y, rect_w, rect_h, paint);
 
+                // Text
                 var stringToDraw = $"{item.Name}, {item.Faceattributes.age}, {item.Faceattributes.gender}";
                 canvas.DrawText(stringToDraw, rect_x - 20, rect_y - 20, paintText);
             }
@@ -107,7 +119,6 @@ namespace FaceRecognition.Views
             await viewModel.TakePhotoAsync(this);
             if (!viewModel.IsImageSetCompleted) return;
 
-            // TODO check if changed, not set.
             var imageStream = await viewModel.GetImageStreamAsync();
             bitmap = SKBitmap.Decode(imageStream);
             RectangleDatas = new List<RectangleData>();
@@ -137,6 +148,7 @@ namespace FaceRecognition.Views
 
             try
             {
+                // Processing dialog.
                 using (UserDialogs.Instance.Loading("Processing", null, null, true, MaskType.Black))
                 {
                     var image = await viewModel.GetImageStreamAsync();

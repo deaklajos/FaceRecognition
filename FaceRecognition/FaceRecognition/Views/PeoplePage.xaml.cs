@@ -13,17 +13,25 @@ using FaceRecognition.ViewModels;
 
 namespace FaceRecognition.Views
 {
+    /// <summary>
+    /// Page for displaying the list of people.
+    /// </summary>
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PeoplePage : ContentPage
     {
         PeopleViewModel viewModel;
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public PeoplePage()
         {
             InitializeComponent();
 
             BindingContext = viewModel = new PeopleViewModel();
 
+            // Display server connection error.
+            // Mostly internet turned off.
             MessagingCenter.Subscribe<PeopleViewModel, string>(this, "LoadException", async (obj, message) =>
             {
                 await DisplayAlert("Error!", message, "OK");

@@ -31,6 +31,7 @@ namespace FaceRecognition.Droid
 
         public void OnActivityCreated(Activity activity, Bundle savedInstanceState)
         {
+            // Needed for cross platform permission checks
             CrossCurrentActivity.Current.Activity = activity;
         }
 
@@ -44,6 +45,7 @@ namespace FaceRecognition.Droid
 
         public void OnActivityResumed(Activity activity)
         {
+            // Needed for cross platform permission checks
             CrossCurrentActivity.Current.Activity = activity;
         }
 
@@ -53,6 +55,7 @@ namespace FaceRecognition.Droid
 
         public void OnActivityStarted(Activity activity)
         {
+            // Needed for cross platform permission checks
             CrossCurrentActivity.Current.Activity = activity;
         }
 

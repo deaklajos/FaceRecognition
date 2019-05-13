@@ -8,12 +8,20 @@ using FaceRecognition.ViewModels;
 
 namespace FaceRecognition.Views
 {
+    /// <summary>
+    /// Page for displaying a person.
+    /// </summary>
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PersonDetailPage : ContentPage
     {
         PersonDetailViewModel viewModel;
         PeopleViewModel PeopleViewModel;
 
+        /// <summary>
+        /// Contreuctor.
+        /// </summary>
+        /// <param name="viewModel">ViewModel for the page.</param>
+        /// <param name="peopleViewModel">PeopleViewModel for deleting the person.</param>
         public PersonDetailPage(PersonDetailViewModel viewModel, PeopleViewModel peopleViewModel)
         {
             InitializeComponent();
