@@ -1,4 +1,5 @@
-﻿using FaceRecognition.Models;
+﻿using Acr.UserDialogs;
+using FaceRecognition.Models;
 using FaceRecognition.ViewModels;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -135,14 +137,17 @@ namespace FaceRecognition.Views
 
             try
             {
-                var image = await viewModel.GetImageStreamAsync();
-                RectangleDatas = await viewModel.IndentifyAsync();
-                canvasView.InvalidateSurface();
+                using (UserDialogs.Instance.Loading("Processing", null, null, true, MaskType.Black))
+                {
+                    var image = await viewModel.GetImageStreamAsync();
+                    RectangleDatas = await viewModel.IndentifyAsync();
+                    canvasView.InvalidateSurface();
+                } 
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Error!", ex.Message, "OK");
-            }
+            }  
         }
     }
 }

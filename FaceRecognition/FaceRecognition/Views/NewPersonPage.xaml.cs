@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using SkiaSharp.Views.Forms;
 using System.Reflection;
 using System.IO;
+using Acr.UserDialogs;
 
 namespace FaceRecognition.Views
 {
@@ -78,8 +79,11 @@ namespace FaceRecognition.Views
 
             try
             {
-                var imageStream = await viewModel.GetImageStreamAsync();
-                await PeopleViewModel.AddPersonAsync(viewModel.Person, imageStream);
+                using (UserDialogs.Instance.Loading("Processing", null, null, true, MaskType.Black))
+                {
+                    var imageStream = await viewModel.GetImageStreamAsync();
+                    await PeopleViewModel.AddPersonAsync(viewModel.Person, imageStream);
+                }  
             }
             catch (Exception ex)
             {
