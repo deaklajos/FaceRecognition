@@ -11,6 +11,12 @@ using Newtonsoft.Json.Linq;
 
 namespace FaceRecognition.Services
 {
+    /// <summary>
+    /// Class wrapping all Face API calls.
+    /// <para>
+    /// Even different devices will see the same list of people.
+    /// </para>
+    /// </summary>
     public class FaceAPIWrapper
     {
         // Use your own API key.
@@ -35,6 +41,9 @@ namespace FaceRecognition.Services
             group = await GetPersonGroupAsync();
         }
 
+        /// <summary>
+        /// Constructs the FaceAPIWrapper class.
+        /// </summary>
         public FaceAPIWrapper()
         {
             client.DefaultRequestHeaders.Add(
@@ -47,6 +56,7 @@ namespace FaceRecognition.Services
             if (groups.Count > 0)
                 return groups[0];
 
+            // If no persongroup exists on the server, it must be created.
             var group = await CreatePersonGroupAsync();
             return group;
         }
@@ -54,6 +64,7 @@ namespace FaceRecognition.Services
         private async Task<IList<PersonGroup>> ListPersonGroupsAsync()
         {
             var response = await client.GetAsync(uriBase + personGroupUri);
+            // Proper Face API error check
             await CheckResponseAsync(response);
 
             var contentString = await response.Content.ReadAsStringAsync();
@@ -65,6 +76,8 @@ namespace FaceRecognition.Services
 
         private async Task<PersonGroup> CreatePersonGroupAsync()
         {
+            // Always the same persongroup
+            // Works somewhat like a server side singleton
             PersonGroup personGroup = new PersonGroup
             {
                 personGroupId = "default_id",
@@ -87,16 +100,24 @@ namespace FaceRecognition.Services
                     new MediaTypeHeaderValue("application/json");
 
                 var response = await client.PutAsync(uriBase + personGroupUri + $"/{personGroup.personGroupId}", content);
+                // Proper Face API error check
                 await CheckResponseAsync(response);
 
                 return personGroup;
             }
         }
 
+        /// <summary>
+        /// Saves a person to the server.
+        /// </summary>
+        /// <param name="person">The person to be saved.</param>
+        /// <param name="image">Image of the person's face as a Stream.</param>
         public async Task AddPersonAsync(Person person, Stream image)
         {
+            // Lazy initialization
             await InitGroupAsync();
 
+            // Add person
             var requestString =
                 $@"{{
                 ""name"": ""{person.name}""
@@ -112,6 +133,7 @@ namespace FaceRecognition.Services
                     group.personGroupId + "/" + personUri;
 
                 var response = await client.PostAsync(uri, content);
+                // Proper Face API error check
                 await CheckResponseAsync(response);
 
                 string contentString = await response.Content.ReadAsStringAsync();
@@ -135,8 +157,11 @@ namespace FaceRecognition.Services
                     person.personId + "/persistedFaces";
 
                 var response = await client.PostAsync(uri, content);
+
+                // If the face add operation fails, the person must be deleted.
                 if (!response.IsSuccessStatusCode)
                     await DeletePersonAsync(person);
+                // Proper Face API error check
                 await CheckResponseAsync(response);
 
                 string contentString = await response.Content.ReadAsStringAsync();
@@ -147,25 +172,37 @@ namespace FaceRecognition.Services
             }
         }
 
+        /// <summary>
+        /// Deletes the person from the server.
+        /// </summary>
+        /// <param name="person">The person to be deleted.</param>
         public async Task DeletePersonAsync(Person person)
         {
+            // Lazy initialization
             await InitGroupAsync();
 
             var uri = uriBase + personGroupUri + "/" +
                 group.personGroupId + "/" + personUri + "/" + person.personId;
 
             var response = await client.DeleteAsync(uri);
+            // Proper Face API error check
             await CheckResponseAsync(response);
         }
 
+        /// <summary>
+        /// Lists all person from the server.
+        /// </summary>
+        /// <returns>A list of all the people stored on the server.</returns>
         public async Task<IList<Person>> ListAllPersonAsync()
         {
+            // Lazy initialization
             await InitGroupAsync();
 
             var uri = uriBase + personGroupUri + "/" +
                 group.personGroupId + "/" + personUri;
 
             var response = await client.GetAsync(uri);
+            // Proper Face API error check
             await CheckResponseAsync(response);
 
             string contentString = await response.Content.ReadAsStringAsync();
@@ -173,8 +210,12 @@ namespace FaceRecognition.Services
             return Newtonsoft.Json.JsonConvert.DeserializeObject<List<Person>>(contentString);
         }
 
+        /// <summary>
+        /// Trains the PersonGroup so it can be used for identification.
+        /// </summary>
         public async Task TrainPersonGroup()
         {
+            // Lazy initialization
             await InitGroupAsync();
 
             var uri = uriBase + personGroupUri + "/" +
@@ -189,12 +230,22 @@ namespace FaceRecognition.Services
                     new MediaTypeHeaderValue("application/json");
 
                 response = await client.PostAsync(uri, content);
+                // Proper Face API error check
                 await CheckResponseAsync(response);
             }
         }
 
+        /// <summary>
+        /// Tries to match(Identifies) all the people on the server with the provided faceIds.
+        /// </summary>
+        /// <param name="faceIds">The Ids of the faces to be identified.</param>
+        /// <returns>
+        /// Returns a list with all the data that is required to display the 
+        /// result of the identification.
+        /// </returns>
         public async Task<IList<IdentifyData>> IdentifyInPersonGroup(IList<string> faceIds)
         {
+            // Lazy initialization
             await InitGroupAsync();
 
             var uri = uriBase + "identify";
@@ -217,6 +268,7 @@ namespace FaceRecognition.Services
                     new MediaTypeHeaderValue("application/json");
 
                 response = await client.PostAsync(uri, content);
+                // Proper Face API error check
                 await CheckResponseAsync(response);
             }
 
@@ -225,6 +277,11 @@ namespace FaceRecognition.Services
             return Newtonsoft.Json.JsonConvert.DeserializeObject<IList<IdentifyData>>(contentString);
         }
 
+        /// <summary>
+        /// Detects faces on the provided image.
+        /// </summary>
+        /// <param name="imageStream">Image with faces to be detected as a Stream.</param>
+        /// <returns>Returns the detected faces.</returns>
         public async Task<IList<Face>> UploadAndDetectFaces(Stream imageStream)
         {
             string requestParameters = 
@@ -247,6 +304,7 @@ namespace FaceRecognition.Services
                     new MediaTypeHeaderValue("application/octet-stream");
 
                 response = await client.PostAsync(uri, content);
+                // Proper Face API error check
                 await CheckResponseAsync(response);
 
                 string contentString = await response.Content.ReadAsStringAsync();
@@ -255,12 +313,13 @@ namespace FaceRecognition.Services
             }
         }
 
-        public async Task CheckResponseAsync(HttpResponseMessage response)
+        private async Task CheckResponseAsync(HttpResponseMessage response)
         {
             if (response.IsSuccessStatusCode) return;
 
             string contentString = await response.Content.ReadAsStringAsync();
 
+            // Detailed Face API errors returned in the body of the response.
             var errorResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<APIErrorResponse>(contentString);
             var errorString = $"{errorResponse.error.message}({errorResponse.error.code})";
             throw new HttpRequestException(errorString);

@@ -7,8 +7,19 @@ using Xamarin.Forms;
 
 namespace FaceRecognition.Services
 {
+    /// <summary>
+    /// Class for cross platform image taking and picking.
+    /// </summary>
     public class ImageProvider
     {
+        /// <summary>
+        /// Requests the user to take a photo. 
+        /// <para>
+        /// Checks and requests permissions if required.
+        /// </para>
+        /// </summary>
+        /// <param name="page">Caller Page object for showing messages.</param>
+        /// <returns>Returns the image taken as a Stream.</returns>
         public async Task<Stream> TakePhotoAsync(Page page)
         {
             Stream image = null;
@@ -32,7 +43,7 @@ namespace FaceRecognition.Services
                     var photo = await Plugin.Media.CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions() { });
                     if (photo != null)
                     {
-                        // Copy could possibly make this operation safer.
+                        // Copy can make this operation better, because the Stream could be a filestream.
                         var ms = new MemoryStream();
                         await photo.GetStream().CopyToAsync(ms);
                         ms.Position = 0;
@@ -54,6 +65,14 @@ namespace FaceRecognition.Services
             return image;
         }
 
+        /// <summary>
+        /// Requests the user to pic a photo. 
+        /// <para>
+        /// Checks and requests permissions if required.
+        /// </para>
+        /// </summary>
+        /// <param name="page">Caller Page object for showing messages.</param>
+        /// <returns>Returns the image picked as a Stream.</returns>
         public async Task<Stream> PickImageAsync(Page page)
         {
 
@@ -78,7 +97,7 @@ namespace FaceRecognition.Services
                     var photo = await Plugin.Media.CrossMedia.Current.PickPhotoAsync();
                     if (photo != null)
                     {
-                        // Copy could possibly make this operation safer.
+                        // Copy can make this operation better, because the Stream could be a filestream.
                         var ms = new MemoryStream();
                         await photo.GetStream().CopyToAsync(ms);
                         ms.Position = 0;
